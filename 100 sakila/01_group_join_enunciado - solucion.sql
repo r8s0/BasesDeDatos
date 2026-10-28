@@ -123,7 +123,7 @@ ORDER BY COUNT(DISTINCT rental_id) DESC;
 customer -> rental -> payment
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS dinero_gastado
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS total_pagado
 FROM customer
         JOIN rental USING (customer_id)
         JOIN payment USING (rental_id)
@@ -131,6 +131,20 @@ GROUP BY customer.customer_id
 ORDER BY SUM(amount) DESC;
 
 -- 11:  Muestra los clientes cuyo importe total pagado es al menos 200.
+
+/* TABLAS QUE NECESITO: 
+customer -> rental -> payment
+*/
+
+SELECT * FROM customer JOIN rental USING (customer_id) JOIN payment USING (rental_id);
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS total_pagado
+FROM customer
+        JOIN rental USING (customer_id)
+        JOIN payment USING (rental_id)
+GROUP BY customer.customer_id
+HAVING SUM(amount) >= 200
+ORDER BY SUM(amount) DESC;
+
 -- 12:  Para cada empleado (staff), muestra el número de pagos que ha procesado.
 -- 13:  Para cada empleado, muestra el importe total procesado.
 -- 14:  Para cada tienda, cuenta cuántos artículos de inventario tiene.
