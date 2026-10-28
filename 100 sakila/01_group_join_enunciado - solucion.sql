@@ -77,6 +77,19 @@ HAVING COUNT(DISTINCT inventory_id) >= 5
 ORDER BY COUNT(DISTINCT inventory_id) DESC;
 
 -- 7:  Para cada artículo de inventario, cuenta cuántos alquileres se han realizado.
+
+/* TABLAS QUE NECESITO:
+film -> inventory -> rental -> payment
+*/
+
+SELECT film_id, title, COUNT(DISTINCT rental_id) AS num_alquileres
+FROM film
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+        JOIN payment USING (rental_id)
+GROUP BY film_id
+ORDER BY COUNT(DISTINCT rental_id) DESC;
+
 -- 8:  Para cada cliente, muestra cuántos alquileres ha realizado en total.
 -- 9:  Lista los clientes con 30 o más alquileres acumulados.
 -- 10:  Para cada cliente, muestra el total de pagos (suma en euros/dólares) que ha realizado.
