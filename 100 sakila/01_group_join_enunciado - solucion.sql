@@ -45,11 +45,22 @@ ORDER BY COUNT(DISTINCT film_id) DESC;
 film -> language
 */
 
-SELECT name, ROUND(AVG(length),2) FROM film JOIN language USING (language_id)
+SELECT name, ROUND(AVG(length), 2)
+FROM film
+        JOIN language USING (language_id)
 GROUP BY language_id
 HAVING AVG(length) > 110;
 
 -- 5:  Para cada película, muestra cuántas copias hay en el inventario.
+
+/* TABLAS QUE NECESITO:
+film -> inventory
+*/
+
+SELECT title, COUNT(DISTINCT inventory_id) FROM film JOIN inventory USING (film_id)
+GROUP BY film_id
+ORDER BY COUNT(DISTINCT inventory_id) DESC;
+
 -- 6:  Lista solo las películas que tienen al menos 5 copias en inventario.
 -- 7:  Para cada artículo de inventario, cuenta cuántos alquileres se han realizado.
 -- 8:  Para cada cliente, muestra cuántos alquileres ha realizado en total.
