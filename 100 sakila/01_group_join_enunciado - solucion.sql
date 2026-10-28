@@ -159,6 +159,18 @@ GROUP BY staff.staff_id
 ORDER BY COUNT(DISTINCT payment_id) DESC;
 
 -- 13:  Para cada empleado, muestra el importe total procesado.
+
+/* TABLAS QUE NECESITO:
+staff -> rental -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS importe_procesado
+FROM staff
+        JOIN rental USING (staff_id)
+        JOIN payment USING (rental_id)
+GROUP BY staff.staff_id
+ORDER BY SUM(amount) DESC;
+
 -- 14:  Para cada tienda, cuenta cuántos artículos de inventario tiene.
 -- 15:  Para cada tienda, cuenta cuántos clientes tiene asignados.
 -- 16:  Para cada tienda, cuenta cuántos empleados (staff) tiene asignados.
