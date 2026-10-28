@@ -104,6 +104,19 @@ GROUP BY customer.customer_id
 ORDER BY COUNT(DISTINCT rental_id) DESC;
 
 -- 9:  Lista los clientes con 30 o más alquileres acumulados.
+
+/* TABLAS QUE NECESITO: 
+customer -> rental -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT rental_id)
+FROM customer
+        JOIN rental USING (customer_id)
+        JOIN payment USING (rental_id)
+GROUP BY customer.customer_id
+HAVING COUNT(DISTINCT rental_id) >= 30
+ORDER BY COUNT(DISTINCT rental_id) DESC;
+
 -- 10:  Para cada cliente, muestra el total de pagos (suma en euros/dólares) que ha realizado.
 -- 11:  Muestra los clientes cuyo importe total pagado es al menos 200.
 -- 12:  Para cada empleado (staff), muestra el número de pagos que ha procesado.
