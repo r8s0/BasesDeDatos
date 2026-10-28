@@ -8,7 +8,7 @@ use sakila;
 actor -> film_actor 
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id)
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id) AS num_peliculas
 FROM actor
         JOIN film_actor USING (actor_id)
 GROUP BY actor_id
@@ -20,7 +20,7 @@ ORDER BY COUNT(DISTINCT film_id) DESC;
 actor -> film_actor 
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id)
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id) AS num_peliculas
 FROM actor
         JOIN film_actor USING (actor_id)
 GROUP BY actor_id
@@ -33,7 +33,7 @@ ORDER BY COUNT(DISTINCT film_id) DESC;
 language -> film 
 */
 
-SELECT name, COUNT(DISTINCT film_id)
+SELECT name, COUNT(DISTINCT film_id) AS num_peliculas
 FROM language
         JOIN film USING (language_id)
 GROUP BY language_id
@@ -45,7 +45,7 @@ ORDER BY COUNT(DISTINCT film_id) DESC;
 film -> language
 */
 
-SELECT name, ROUND(AVG(length), 2)
+SELECT name, ROUND(AVG(length), 2) AS duracion
 FROM film
         JOIN language USING (language_id)
 GROUP BY language_id
@@ -57,11 +57,25 @@ HAVING AVG(length) > 110;
 film -> inventory
 */
 
-SELECT title, COUNT(DISTINCT inventory_id) FROM film JOIN inventory USING (film_id)
+SELECT title, COUNT(DISTINCT inventory_id) AS copias_inventario
+FROM film
+        JOIN inventory USING (film_id)
 GROUP BY film_id
 ORDER BY COUNT(DISTINCT inventory_id) DESC;
 
 -- 6:  Lista solo las películas que tienen al menos 5 copias en inventario.
+
+/* TABLAS QUE NECESITO:
+film -> inventory
+*/
+
+SELECT title, COUNT(DISTINCT inventory_id) AS copias_inventario
+FROM film
+        JOIN inventory USING (film_id)
+GROUP BY film_id
+HAVING COUNT(DISTINCT inventory_id) >= 5
+ORDER BY COUNT(DISTINCT inventory_id) DESC;
+
 -- 7:  Para cada artículo de inventario, cuenta cuántos alquileres se han realizado.
 -- 8:  Para cada cliente, muestra cuántos alquileres ha realizado en total.
 -- 9:  Lista los clientes con 30 o más alquileres acumulados.
