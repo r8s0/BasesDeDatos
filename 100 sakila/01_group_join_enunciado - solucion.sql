@@ -14,6 +14,13 @@ GROUP BY actor_id
 ORDER BY COUNT(DISTINCT film_id) DESC;
 
 -- 2:  Lista solo los actores que participan en 20 o más películas (umbral alto) con su conteo.
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id)
+FROM actor JOIN film_actor USING (actor_id)
+GROUP BY actor_id
+HAVING COUNT(DISTINCT film_id) >= 20
+ORDER BY COUNT(DISTINCT film_id) DESC;
+
 -- 3:  Para cada idioma, indica cuántas películas están catalogadas en ese idioma.
 -- 4:  Muestra el promedio de duración (length) de las películas por idioma y filtra aquellos idiomas con duración media estrictamente mayor a 110 minutos.
 -- 5:  Para cada película, muestra cuántas copias hay en el inventario.
