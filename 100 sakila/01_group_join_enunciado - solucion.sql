@@ -91,6 +91,18 @@ GROUP BY film_id
 ORDER BY COUNT(DISTINCT rental_id) DESC;
 
 -- 8:  Para cada cliente, muestra cuántos alquileres ha realizado en total.
+
+/* TABLAS QUE NECESITO:
+customer -> rental -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT rental_id) AS num_alquileres
+FROM customer
+        JOIN rental USING (customer_id)
+        JOIN payment USING (rental_id)
+GROUP BY customer.customer_id
+ORDER BY COUNT(DISTINCT rental_id) DESC;
+
 -- 9:  Lista los clientes con 30 o más alquileres acumulados.
 -- 10:  Para cada cliente, muestra el total de pagos (suma en euros/dólares) que ha realizado.
 -- 11:  Muestra los clientes cuyo importe total pagado es al menos 200.
