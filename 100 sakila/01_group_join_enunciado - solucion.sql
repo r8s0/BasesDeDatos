@@ -172,6 +172,17 @@ GROUP BY staff.staff_id
 ORDER BY SUM(amount) DESC;
 
 -- 14:  Para cada tienda, cuenta cuántos artículos de inventario tiene.
+
+/* TABLAS QUE NECESITO:
+store -> inventory
+*/
+
+SELECT store_id, COUNT(DISTINCT inventory_id)
+FROM store
+        JOIN inventory USING (store_id)
+GROUP BY store_id
+ORDER BY COUNT(DISTINCT inventory_id) DESC;
+
 -- 15:  Para cada tienda, cuenta cuántos clientes tiene asignados.
 -- 16:  Para cada tienda, cuenta cuántos empleados (staff) tiene asignados.
 -- 17:  Para cada dirección (address), cuenta cuántas tiendas hay ubicadas ahí (debería ser 0/1 en datos estándar).
