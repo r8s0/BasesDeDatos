@@ -146,6 +146,18 @@ HAVING SUM(amount) >= 200
 ORDER BY SUM(amount) DESC;
 
 -- 12:  Para cada empleado (staff), muestra el número de pagos que ha procesado.
+
+/* TABLAS QUE NECESITO:
+staff -> rental -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT payment_id) AS num_pagos_realizados
+FROM staff
+        JOIN rental USING (staff_id)
+        JOIN payment USING (rental_id)
+GROUP BY staff.staff_id
+ORDER BY COUNT(DISTINCT payment_id) DESC;
+
 -- 13:  Para cada empleado, muestra el importe total procesado.
 -- 14:  Para cada tienda, cuenta cuántos artículos de inventario tiene.
 -- 15:  Para cada tienda, cuenta cuántos clientes tiene asignados.
