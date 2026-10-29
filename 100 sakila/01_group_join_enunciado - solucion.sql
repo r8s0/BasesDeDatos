@@ -8,11 +8,11 @@ use sakila;
 actor -> film_actor 
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT film_id) AS num_peliculas
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id) AS num_peliculas
 FROM actor
         JOIN film_actor USING (actor_id)
 GROUP BY actor_id
-ORDER BY COUNT(DISTINCT film_id) DESC;
+ORDER BY COUNT(film_id) DESC;
 
 -- 2:  Lista solo los actores que participan en 20 o más películas (umbral alto) con su conteo.
 
@@ -201,13 +201,24 @@ ORDER BY COUNT(DISTINCT customer_id) DESC;
 store -> staff
 */
 
-SELECT store_id, COUNT(DISTINCT staff_id)
+SELECT store_id, COUNT(DISTINCT staff_id) AS num_empleados
 FROM store
         JOIN staff USING (store_id)
 GROUP BY store_id
 ORDER BY COUNT(DISTINCT staff_id) DESC;
 
 -- 17:  Para cada dirección (address), cuenta cuántas tiendas hay ubicadas ahí (debería ser 0/1 en datos estándar).
+
+/* TABLAS QUE NECESITO:
+address -> store
+*/
+
+SELECT address AS direccion, COUNT(store_id) AS num_tiendas
+FROM address
+        JOIN store USING (address_id)
+GROUP BY address_id
+ORDER BY COUNT(store_id) DESC;
+
 -- 18:  Para cada dirección, cuenta cuántos empleados residen en esa dirección.
 -- 19:  Para cada dirección, cuenta cuántos clientes residen ahí.
 -- 20:  Para cada ciudad, cuenta cuántas direcciones hay registradas.
