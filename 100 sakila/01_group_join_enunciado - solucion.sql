@@ -232,6 +232,17 @@ GROUP BY address_id
 ORDER BY COUNT(staff_id); -- Podría poner el distinct por si habitasen en la misma dirección, pero en este caso es igual porque no se cumple.
 
 -- 19:  Para cada dirección, cuenta cuántos clientes residen ahí.
+
+/* TABLAS QUE NECESITO:
+address -> customer
+*/
+
+SELECT address AS direccion, district AS distrito, COUNT(customer_id) AS clientes_residiendo
+FROM address
+        JOIN customer USING (address_id)
+GROUP BY address_id
+ORDER BY COUNT(customer_id) DESC; -- Podría poner el distinct por si habitasen en la misma dirección, pero en este caso es igual porque no se cumple.
+
 -- 20:  Para cada ciudad, cuenta cuántas direcciones hay registradas.
 -- 21:  Para cada país, cuenta cuántas ciudades existen.
 -- 22:  Para cada idioma, calcula la duración media de películas y muestra solo los idiomas con media entre 90 y 120 inclusive.
