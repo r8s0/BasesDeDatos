@@ -308,6 +308,15 @@ GROUP BY customer_id
 ORDER BY COUNT(payment_id) DESC;
 
 -- 25:  Para cada película, muestra el promedio de tarifa de alquiler (rental_rate) de las copias existentes (es un promedio redundante pero válido).
+
+/* TABLAS QUE NECESITO:
+film
+*/
+
+SELECT title, ROUND(AVG(rental_rate),2) FROM film
+GROUP BY film_id
+ORDER BY ROUND(AVG(rental_rate),2) DESC;
+
 -- 26:  Para cada actor, muestra la duración media (length) de sus películas.
 -- 27:  Para cada ciudad, cuenta cuántos clientes hay (usando la relación cliente->address->city requiere 3 tablas; aquí contamos direcciones por ciudad).
 -- 28:  Para cada película, cuenta cuántos actores tiene asociados.
