@@ -189,13 +189,24 @@ ORDER BY COUNT(DISTINCT inventory_id) DESC;
 store -> customer
 */
 
-SELECT store_id, COUNT(DISTINCT customer_id)
+SELECT store_id, COUNT(DISTINCT customer_id) AS num_clientes
 FROM store
         JOIN customer USING (store_id)
 GROUP BY store_id
 ORDER BY COUNT(DISTINCT customer_id) DESC;
 
 -- 16:  Para cada tienda, cuenta cuántos empleados (staff) tiene asignados.
+
+/* TABLAS QUE NECESITO:
+store -> staff
+*/
+
+SELECT store_id, COUNT(DISTINCT staff_id)
+FROM store
+        JOIN staff USING (store_id)
+GROUP BY store_id
+ORDER BY COUNT(DISTINCT staff_id) DESC;
+
 -- 17:  Para cada dirección (address), cuenta cuántas tiendas hay ubicadas ahí (debería ser 0/1 en datos estándar).
 -- 18:  Para cada dirección, cuenta cuántos empleados residen en esa dirección.
 -- 19:  Para cada dirección, cuenta cuántos clientes residen ahí.
