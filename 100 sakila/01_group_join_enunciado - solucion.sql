@@ -331,6 +331,18 @@ GROUP BY actor_id
 ORDER BY ROUND(AVG(length), 2) DESC;
 
 -- 27:  Para cada ciudad, cuenta cuántos clientes hay (usando la relación cliente->address->city requiere 3 tablas; aquí contamos direcciones por ciudad).
+
+/* TABALS QUE NECESITO:
+customer -> address -> city
+*/
+
+SELECT city, COUNT(customer_id) AS num_clientes
+FROM customer
+        JOIN address USING (address_id)
+        JOIN city USING (city_id)
+GROUP BY city_id
+ORDER BY COUNT(customer_id) DESC;
+
 -- 28:  Para cada película, cuenta cuántos actores tiene asociados.
 -- 29:  Para cada categoría (por id), cuenta cuántas películas pertenecen a ella (sin nombre de categoría para mantener 2 tablas).
 -- 30:  Para cada tienda, cuenta cuántos alquileres totales se originan en su inventario.
