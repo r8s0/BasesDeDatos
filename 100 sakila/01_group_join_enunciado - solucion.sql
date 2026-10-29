@@ -295,6 +295,18 @@ GROUP BY film_id
 ORDER BY COUNT(rental_id) DESC;
 
 -- 24:  Para cada cliente, cuenta cuántos pagos ha realizado en 2005 (usando el año de payment_date).
+
+/* TABLAS QUE NECESITO:
+customer -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(payment_id) AS pagos_realizados
+FROM customer
+        JOIN payment USING (customer_id)
+WHERE YEAR(payment_date) = 2005
+GROUP BY customer_id
+ORDER BY COUNT(payment_id) DESC;
+
 -- 25:  Para cada película, muestra el promedio de tarifa de alquiler (rental_rate) de las copias existentes (es un promedio redundante pero válido).
 -- 26:  Para cada actor, muestra la duración media (length) de sus películas.
 -- 27:  Para cada ciudad, cuenta cuántos clientes hay (usando la relación cliente->address->city requiere 3 tablas; aquí contamos direcciones por ciudad).
