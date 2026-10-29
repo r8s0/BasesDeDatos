@@ -244,6 +244,17 @@ GROUP BY address_id
 ORDER BY COUNT(customer_id) DESC; -- Podría poner el distinct por si habitasen en la misma dirección, pero en este caso es igual porque no se cumple.
 
 -- 20:  Para cada ciudad, cuenta cuántas direcciones hay registradas.
+
+/* TABLAS QUE NECESITO:
+city -> address
+*/
+
+SELECT city AS ciudad, COUNT(address) AS num_direcciones
+FROM city
+        JOIN address USING (city_id)
+GROUP BY city_id
+ORDER BY COUNT(address) DESC;
+
 -- 21:  Para cada país, cuenta cuántas ciudades existen.
 -- 22:  Para cada idioma, calcula la duración media de películas y muestra solo los idiomas con media entre 90 y 120 inclusive.
 -- 23:  Para cada película, cuenta el número de alquileres que se han hecho de cualquiera de sus copias (usando inventario).
