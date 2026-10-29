@@ -12,7 +12,7 @@ SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id) AS num_pelic
 FROM actor
         JOIN film_actor USING (actor_id)
 GROUP BY actor_id
-ORDER BY COUNT(film_id) DESC;
+ORDER BY COUNT(film_id) DESC; -- En este caso el DISTINCT no tiene sentido dado que un mismo actor no puede aparecer dos veces diferentes en una misma película.
 
 -- 2:  Lista solo los actores que participan en 20 o más películas (umbral alto) con su conteo.
 
@@ -213,13 +213,24 @@ ORDER BY COUNT(DISTINCT staff_id) DESC;
 address -> store
 */
 
-SELECT address AS direccion, COUNT(store_id) AS num_tiendas
+SELECT address AS direccion, district AS distrito, COUNT(store_id) AS num_tiendas
 FROM address
         JOIN store USING (address_id)
 GROUP BY address_id
 ORDER BY COUNT(store_id) DESC;
 
 -- 18:  Para cada dirección, cuenta cuántos empleados residen en esa dirección.
+
+/* TABLAS QUE NECESITO:
+address -> staff
+*/
+
+SELECT address AS direccion, district AS distrito, COUNT(staff_id) AS empleados_residiendo
+FROM address
+        JOIN staff USING (address_id)
+GROUP BY address_id
+ORDER BY COUNT(staff_id); -- Podría poner el distinct por si habitasen en la misma dirección, pero en este caso es igual porque no se cumple.
+
 -- 19:  Para cada dirección, cuenta cuántos clientes residen ahí.
 -- 20:  Para cada ciudad, cuenta cuántas direcciones hay registradas.
 -- 21:  Para cada país, cuenta cuántas ciudades existen.
