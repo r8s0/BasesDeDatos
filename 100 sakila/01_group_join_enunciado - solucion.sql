@@ -256,6 +256,17 @@ GROUP BY city_id
 ORDER BY COUNT(address) DESC;
 
 -- 21:  Para cada país, cuenta cuántas ciudades existen.
+
+/* TABLAS QUE NECESITO:
+country -> city
+*/
+
+SELECT country, COUNT(city_id) AS num_ciudades
+FROM country
+        JOIN city USING (country_id)
+GROUP BY country_id
+ORDER BY COUNT(city_id) DESC;
+
 -- 22:  Para cada idioma, calcula la duración media de películas y muestra solo los idiomas con media entre 90 y 120 inclusive.
 -- 23:  Para cada película, cuenta el número de alquileres que se han hecho de cualquiera de sus copias (usando inventario).
 -- 24:  Para cada cliente, cuenta cuántos pagos ha realizado en 2005 (usando el año de payment_date).
