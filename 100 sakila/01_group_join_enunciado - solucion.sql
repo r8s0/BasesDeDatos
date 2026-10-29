@@ -344,6 +344,17 @@ GROUP BY city_id
 ORDER BY COUNT(customer_id) DESC;
 
 -- 28:  Para cada película, cuenta cuántos actores tiene asociados.
+
+/* TABLAS QUE NECESITO:
+film_actor -> film
+*/
+
+SELECT title, COUNT(actor_id) AS num_actores
+FROM film_actor
+        JOIN film USING (film_id)
+GROUP BY film_id
+ORDER BY COUNT(actor_id) DESC;
+
 -- 29:  Para cada categoría (por id), cuenta cuántas películas pertenecen a ella (sin nombre de categoría para mantener 2 tablas).
 -- 30:  Para cada tienda, cuenta cuántos alquileres totales se originan en su inventario.
 -- ==============================================
