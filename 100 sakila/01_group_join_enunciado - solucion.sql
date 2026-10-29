@@ -273,7 +273,7 @@ ORDER BY COUNT(city_id) DESC;
 language -> film
 */
 
-SELECT name AS idioma, ROUND(AVG(length), 2)
+SELECT name AS idioma, ROUND(AVG(length), 2) AS duracion_media
 FROM language
         JOIN film USING (language_id)
 GROUP BY language_id
@@ -282,6 +282,18 @@ HAVING ROUND(AVG(length), 2) >= 90
 ORDER BY ROUND(AVG(length), 2) DESC;
 
 -- 23:  Para cada película, cuenta el número de alquileres que se han hecho de cualquiera de sus copias (usando inventario).
+
+/* TABLAS QUE NECESITO:
+film -> inventory -> rental
+*/
+
+SELECT title, COUNT(rental_id) AS num_alquileres
+FROM film
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY film_id
+ORDER BY COUNT(rental_id) DESC;
+
 -- 24:  Para cada cliente, cuenta cuántos pagos ha realizado en 2005 (usando el año de payment_date).
 -- 25:  Para cada película, muestra el promedio de tarifa de alquiler (rental_rate) de las copias existentes (es un promedio redundante pero válido).
 -- 26:  Para cada actor, muestra la duración media (length) de sus películas.
