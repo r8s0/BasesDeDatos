@@ -313,11 +313,23 @@ ORDER BY COUNT(payment_id) DESC;
 film
 */
 
-SELECT title, ROUND(AVG(rental_rate),2) FROM film
+SELECT title, ROUND(AVG(rental_rate),2) AS promedio_tarifa FROM film
 GROUP BY film_id
 ORDER BY ROUND(AVG(rental_rate),2) DESC;
 
 -- 26:  Para cada actor, muestra la duración media (length) de sus películas.
+
+/* TABLAS UQE NECESITO:
+actor -> film_actor -> film
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, ROUND(AVG(length), 2) AS duracion_media
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+GROUP BY actor_id
+ORDER BY ROUND(AVG(length), 2) DESC;
+
 -- 27:  Para cada ciudad, cuenta cuántos clientes hay (usando la relación cliente->address->city requiere 3 tablas; aquí contamos direcciones por ciudad).
 -- 28:  Para cada película, cuenta cuántos actores tiene asociados.
 -- 29:  Para cada categoría (por id), cuenta cuántas películas pertenecen a ella (sin nombre de categoría para mantener 2 tablas).
