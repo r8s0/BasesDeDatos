@@ -268,6 +268,19 @@ GROUP BY country_id
 ORDER BY COUNT(city_id) DESC;
 
 -- 22:  Para cada idioma, calcula la duración media de películas y muestra solo los idiomas con media entre 90 y 120 inclusive.
+
+/* TABLAS QUE NECESITO:
+language -> film
+*/
+
+SELECT name AS idioma, ROUND(AVG(length), 2)
+FROM language
+        JOIN film USING (language_id)
+GROUP BY language_id
+HAVING ROUND(AVG(length), 2) >= 90
+    AND ROUND(AVG(length), 2) <= 120
+ORDER BY ROUND(AVG(length), 2) DESC;
+
 -- 23:  Para cada película, cuenta el número de alquileres que se han hecho de cualquiera de sus copias (usando inventario).
 -- 24:  Para cada cliente, cuenta cuántos pagos ha realizado en 2005 (usando el año de payment_date).
 -- 25:  Para cada película, muestra el promedio de tarifa de alquiler (rental_rate) de las copias existentes (es un promedio redundante pero válido).
