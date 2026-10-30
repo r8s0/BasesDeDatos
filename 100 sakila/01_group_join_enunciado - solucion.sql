@@ -385,12 +385,27 @@ ORDER BY COUNT(rental_id) DESC;
 actor -> film_actor -> film
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id) AS peliculas FROM actor JOIN film_actor USING (actor_id) JOIN film USING (film_id)
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id) AS peliculas
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
 GROUP BY actor_id
 HAVING COUNT(film_id) > 15
 ORDER BY COUNT(film_id) DESC;
 
 -- 32:  Para cada categoría (por nombre), cuenta cuántas películas hay en esa categoría.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film
+*/
+
+SELECT name, COUNT(film_id) AS num_peliculas
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+GROUP BY category_id
+ORDER BY COUNT(film_id) DESC;
+
 -- 33:  Para cada película, cuenta cuántos alquileres se han hecho de sus copias.
 -- 34:  Para cada cliente, suma el importe pagado en 2005 y filtra clientes con total >= 150.
 -- 35:  Para cada tienda, suma el importe cobrado por todos sus empleados.
