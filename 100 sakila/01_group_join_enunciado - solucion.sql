@@ -498,8 +498,16 @@ HAVING AVG(length) > 120;
 -- 40:  Para cada idioma, suma las tarifas de alquiler (rental_rate) de todas sus películas.
 
 /* TABLAS QUE NECESITO:
-
+language -> film -> inventory
 */
+
+SELECT * FROM language JOIN film USING (language_id);
+SELECT name, SUM(rental_rate) AS sum_rates
+FROM language
+        JOIN film USING (language_id)
+        JOIN inventory USING (film_id)
+GROUP BY language_id;
+
 -- 41:  Para cada cliente, cuenta cuántos alquileres realizó en fines de semana (SÁB-DO) usando DAYOFWEEK (1=Domingo).
 
 /* TABLAS QUE NECESITO:
