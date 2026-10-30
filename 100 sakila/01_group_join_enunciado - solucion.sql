@@ -380,6 +380,16 @@ ORDER BY COUNT(rental_id) DESC;
 -- SECCIÓN B) 30 CONSULTAS CON JOIN DE 3 TABLAS
 -- ==============================================
 -- 31:  Para cada actor, cuenta cuántas películas tiene y muestra solo los que superan 15 películas.
+
+/* TABLAS QUE NECESITO:
+actor -> film_actor -> film
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id) AS peliculas FROM actor JOIN film_actor USING (actor_id) JOIN film USING (film_id)
+GROUP BY actor_id
+HAVING COUNT(film_id) > 15
+ORDER BY COUNT(film_id) DESC;
+
 -- 32:  Para cada categoría (por nombre), cuenta cuántas películas hay en esa categoría.
 -- 33:  Para cada película, cuenta cuántos alquileres se han hecho de sus copias.
 -- 34:  Para cada cliente, suma el importe pagado en 2005 y filtra clientes con total >= 150.
