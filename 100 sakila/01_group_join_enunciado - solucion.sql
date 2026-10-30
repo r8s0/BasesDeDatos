@@ -93,26 +93,24 @@ ORDER BY COUNT(DISTINCT rental_id) DESC;
 -- 8:  Para cada cliente, muestra cuántos alquileres ha realizado en total.
 
 /* TABLAS QUE NECESITO:
-customer -> rental -> payment
+customer -> rental
 */
 
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT rental_id) AS num_alquileres
 FROM customer
         JOIN rental USING (customer_id)
-        JOIN payment USING (rental_id)
 GROUP BY customer.customer_id
 ORDER BY COUNT(DISTINCT rental_id) DESC;
 
 -- 9:  Lista los clientes con 30 o más alquileres acumulados.
 
 /* TABLAS QUE NECESITO: 
-customer -> rental -> payment
+customer -> rental
 */
 
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT rental_id) AS num_alquileres
 FROM customer
         JOIN rental USING (customer_id)
-        JOIN payment USING (rental_id)
 GROUP BY customer.customer_id
 HAVING COUNT(DISTINCT rental_id) >= 30
 ORDER BY COUNT(DISTINCT rental_id) DESC;
@@ -120,27 +118,25 @@ ORDER BY COUNT(DISTINCT rental_id) DESC;
 -- 10:  Para cada cliente, muestra el total de pagos (suma en euros/dólares) que ha realizado.
 
 /* TABLAS QUE NECESITO: 
-customer -> rental -> payment
+customer -> payment
 */
 
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS total_pagado
 FROM customer
-        JOIN rental USING (customer_id)
-        JOIN payment USING (rental_id)
+        JOIN payment USING (customer_id)
 GROUP BY customer.customer_id
 ORDER BY SUM(amount) DESC;
 
 -- 11:  Muestra los clientes cuyo importe total pagado es al menos 200.
 
 /* TABLAS QUE NECESITO: 
-customer -> rental -> payment
+customer -> payment
 */
 
 SELECT * FROM customer JOIN rental USING (customer_id) JOIN payment USING (rental_id);
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS total_pagado
 FROM customer
-        JOIN rental USING (customer_id)
-        JOIN payment USING (rental_id)
+        JOIN payment USING (customer_id)
 GROUP BY customer.customer_id
 HAVING SUM(amount) >= 200
 ORDER BY SUM(amount) DESC;
@@ -148,26 +144,24 @@ ORDER BY SUM(amount) DESC;
 -- 12:  Para cada empleado (staff), muestra el número de pagos que ha procesado.
 
 /* TABLAS QUE NECESITO:
-staff -> rental -> payment
+staff -> payment
 */
 
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT payment_id) AS num_pagos_realizados
 FROM staff
-        JOIN rental USING (staff_id)
-        JOIN payment USING (rental_id)
+        JOIN payment USING (staff_id)
 GROUP BY staff.staff_id
 ORDER BY COUNT(DISTINCT payment_id) DESC;
 
 -- 13:  Para cada empleado, muestra el importe total procesado.
 
 /* TABLAS QUE NECESITO:
-staff -> rental -> payment
+staff -> payment
 */
 
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS importe_procesado
 FROM staff
-        JOIN rental USING (staff_id)
-        JOIN payment USING (rental_id)
+        JOIN payment USING (staff_id)
 GROUP BY staff.staff_id
 ORDER BY SUM(amount) DESC;
 
@@ -284,7 +278,7 @@ ORDER BY ROUND(AVG(length), 2) DESC;
 -- 23:  Para cada película, cuenta el número de alquileres que se han hecho de cualquiera de sus copias (usando inventario).
 
 /* TABLAS QUE NECESITO:
-film -> inventory -> rental
+film (Solo para incluír nombre de la película) -> inventory -> rental
 */
 
 SELECT title, COUNT(rental_id) AS num_alquileres
@@ -293,6 +287,8 @@ FROM film
         JOIN rental USING (inventory_id)
 GROUP BY film_id
 ORDER BY COUNT(rental_id) DESC;
+
+-- Metí la tabla film para incluir el nombre de la película
 
 -- 24:  Para cada cliente, cuenta cuántos pagos ha realizado en 2005 (usando el año de payment_date).
 
@@ -310,7 +306,7 @@ ORDER BY COUNT(payment_id) DESC;
 -- 25:  Para cada película, muestra el promedio de tarifa de alquiler (rental_rate) de las copias existentes (es un promedio redundante pero válido).
 
 /* TABLAS QUE NECESITO:
-film
+film -> inventory
 */
 
 SELECT title, ROUND(AVG(rental_rate), 2) AS promedio_tarifa, COUNT(inventory_id) AS copias_existentes
@@ -357,6 +353,17 @@ GROUP BY film_id
 ORDER BY COUNT(actor_id) DESC;
 
 -- 29:  Para cada categoría (por id), cuenta cuántas películas pertenecen a ella (sin nombre de categoría para mantener 2 tablas).
+
+/* TABLAS QUE NECESITO:
+film_category -> film
+*/
+
+SELECT category_id, COUNT(film_id) AS peliculas
+FROM film_category
+        JOIN film USING (film_id)
+GROUP BY category_id
+ORDER BY COUNT(film_id) DESC;
+
 -- 30:  Para cada tienda, cuenta cuántos alquileres totales se originan en su inventario.
 -- ==============================================
 -- SECCIÓN B) 30 CONSULTAS CON JOIN DE 3 TABLAS
