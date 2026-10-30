@@ -434,6 +434,18 @@ HAVING SUM(amount) >= 150
 ORDER BY SUM(amount) DESC;
 
 -- 35:  Para cada tienda, suma el importe cobrado por todos sus empleados.
+
+/* TABLAS QUE NECESITO:
+store -> staff -> payment
+*/
+
+SELECT store_id, SUM(amount) AS importe_cobrado
+FROM store
+        JOIN staff USING (store_id)
+        JOIN payment USING (staff_id)
+GROUP BY store_id
+ORDER BY SUM(amount) DESC;
+
 -- 36:  Para cada ciudad, cuenta cuántos empleados residen ahí (staff -> address -> city).
 -- 37:  Para cada ciudad, cuenta cuántas tiendas existen (store -> address -> city).
 -- 38:  Para cada actor, calcula la duración media de sus películas del año 2006.
