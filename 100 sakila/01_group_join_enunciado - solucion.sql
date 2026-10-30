@@ -524,8 +524,15 @@ GROUP BY customer.customer_id;
 -- 42:  Para cada actor, muestra el total de títulos distintos en los que participa (equivale a COUNT DISTINCT, sin subconsulta).
 
 /* TABLAS QUE NECESITO:
-actor -> 
+actor -> film_actor -> film
 */
+
+SELECT CONCAT(first_name, ' ', last_name), COUNT(DISTINCT title)
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+GROUP BY actor_id;
+
 -- 43:  Para cada ciudad, cuenta cuántos clientes residen ahí (customer -> address -> city).
 
 /* TABLAS QUE NECESITO:
