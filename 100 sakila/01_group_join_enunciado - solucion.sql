@@ -461,8 +461,15 @@ GROUP BY city_id;
 -- 37:  Para cada ciudad, cuenta cuántas tiendas existen (store -> address -> city).
 
 /* TABLAS QUE NECESITO:
-
+city -> address -> store
 */
+
+SELECT city, COUNT(store_id)
+FROM city
+        JOIN address USING (city_id)
+        JOIN store USING (address_id)
+GROUP BY city_id;
+
 -- 38:  Para cada actor, calcula la duración media de sus películas del año 2006.
 
 /* TABLAS QUE NECESITO:
