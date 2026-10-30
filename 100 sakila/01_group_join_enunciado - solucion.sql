@@ -485,8 +485,16 @@ GROUP BY actor_id;
 -- 39:  Para cada categoría, calcula la duración media y muestra solo las que superan 120.
 
 /* TABLAS QUE NECESITO:
-
+category -> film_category -> film
 */
+
+SELECT name, AVG(length)
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+GROUP BY category_id
+HAVING AVG(length) > 120;
+
 -- 40:  Para cada idioma, suma las tarifas de alquiler (rental_rate) de todas sus películas.
 
 /* TABLAS QUE NECESITO:
