@@ -480,6 +480,7 @@ SELECT CONCAT(first_name, ' ', last_name) AS nombre, AVG(length) AS duracion_med
 FROM actor
         JOIN film_actor USING (actor_id)
         JOIN film USING (film_id)
+WHERE release_year = 2006
 GROUP BY actor_id;
 
 -- 39:  Para cada categoría, calcula la duración media y muestra solo las que superan 120.
@@ -501,7 +502,6 @@ HAVING AVG(length) > 120;
 language -> film -> inventory
 */
 
-SELECT * FROM language JOIN film USING (language_id);
 SELECT name, SUM(rental_rate) AS sum_rates
 FROM language
         JOIN film USING (language_id)
@@ -511,12 +511,20 @@ GROUP BY language_id;
 -- 41:  Para cada cliente, cuenta cuántos alquileres realizó en fines de semana (SÁB-DO) usando DAYOFWEEK (1=Domingo).
 
 /* TABLAS QUE NECESITO:
-
+customer -> rental
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(rental_id) AS alquileres
+FROM customer
+        JOIN rental USING (customer_id)
+        JOIN payment USING (rental_id)
+WHERE DAYOFWEEK(rental_date) = 1 OR DAYOFWEEK(rental_date) = 7
+GROUP BY customer.customer_id;
+
 -- 42:  Para cada actor, muestra el total de títulos distintos en los que participa (equivale a COUNT DISTINCT, sin subconsulta).
 
 /* TABLAS QUE NECESITO:
-
+actor -> 
 */
 -- 43:  Para cada ciudad, cuenta cuántos clientes residen ahí (customer -> address -> city).
 
