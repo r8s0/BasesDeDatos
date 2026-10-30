@@ -365,6 +365,17 @@ GROUP BY category_id
 ORDER BY COUNT(film_id) DESC;
 
 -- 30:  Para cada tienda, cuenta cuántos alquileres totales se originan en su inventario.
+
+/* TABLAS QUE NECESITO:
+inventory -> rental
+*/
+
+SELECT store_id, COUNT(rental_id)
+FROM inventory
+        JOIN rental USING (inventory_id)
+GROUP BY store_id
+ORDER BY COUNT(rental_id) DESC;
+
 -- ==============================================
 -- SECCIÓN B) 30 CONSULTAS CON JOIN DE 3 TABLAS
 -- ==============================================
