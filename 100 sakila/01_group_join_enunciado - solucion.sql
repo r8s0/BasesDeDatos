@@ -447,13 +447,52 @@ GROUP BY store_id
 ORDER BY SUM(amount) DESC;
 
 -- 36:  Para cada ciudad, cuenta cuántos empleados residen ahí (staff -> address -> city).
+
+/* TABLAS QUE NECESITO:
+city -> address -> staff
+*/
+
+SELECT city, COUNT(staff_id) AS empleados_residiendo
+FROM city
+        JOIN address USING (city_id)
+        JOIN staff USING (address_id)
+GROUP BY city_id;
+
 -- 37:  Para cada ciudad, cuenta cuántas tiendas existen (store -> address -> city).
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 38:  Para cada actor, calcula la duración media de sus películas del año 2006.
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 39:  Para cada categoría, calcula la duración media y muestra solo las que superan 120.
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 40:  Para cada idioma, suma las tarifas de alquiler (rental_rate) de todas sus películas.
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 41:  Para cada cliente, cuenta cuántos alquileres realizó en fines de semana (SÁB-DO) usando DAYOFWEEK (1=Domingo).
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 42:  Para cada actor, muestra el total de títulos distintos en los que participa (equivale a COUNT DISTINCT, sin subconsulta).
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 43:  Para cada ciudad, cuenta cuántos clientes residen ahí (customer -> address -> city).
+
+/* TABLAS QUE NECESITO:
+
+*/
 -- 44:  Para cada categoría, muestra cuántos actores distintos participan en películas de esa categoría.
 -- 45:  Para cada tienda, cuenta cuántas copias totales (inventario) tiene de películas en 2006.
 -- 46:  Para cada cliente, suma el total pagado por alquileres cuyo empleado pertenece a la tienda 1.
