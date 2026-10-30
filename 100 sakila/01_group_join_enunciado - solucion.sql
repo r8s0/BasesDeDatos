@@ -420,6 +420,19 @@ GROUP BY film_id
 ORDER BY COUNT(film_id) DESC;
 
 -- 34:  Para cada cliente, suma el importe pagado en 2005 y filtra clientes con total >= 150.
+
+/* TABLAS QUE NECESITO:
+customer -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS importe_pagado
+FROM customer
+        JOIN payment USING (customer_id)
+WHERE YEAR(payment_date) = 2005
+GROUP BY customer_id
+HAVING SUM(amount) >= 150
+ORDER BY SUM(amount) DESC;
+
 -- 35:  Para cada tienda, suma el importe cobrado por todos sus empleados.
 -- 36:  Para cada ciudad, cuenta cuántos empleados residen ahí (staff -> address -> city).
 -- 37:  Para cada ciudad, cuenta cuántas tiendas existen (store -> address -> city).
