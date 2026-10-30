@@ -313,9 +313,10 @@ ORDER BY COUNT(payment_id) DESC;
 film
 */
 
-SELECT title, ROUND(AVG(rental_rate),2) AS promedio_tarifa FROM film
+SELECT title, ROUND(AVG(rental_rate), 2) AS promedio_tarifa, COUNT(inventory_id) AS copias_existentes
+FROM film JOIN inventory USING (film_id)
 GROUP BY film_id
-ORDER BY ROUND(AVG(rental_rate),2) DESC;
+ORDER BY ROUND(AVG(rental_rate), 2) DESC;
 
 -- 26:  Para cada actor, muestra la duración media (length) de sus películas.
 
