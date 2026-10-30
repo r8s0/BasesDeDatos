@@ -473,8 +473,15 @@ GROUP BY city_id;
 -- 38:  Para cada actor, calcula la duración media de sus películas del año 2006.
 
 /* TABLAS QUE NECESITO:
-
+actor -> film_actor -> film
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, AVG(length) AS duracion_media
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+GROUP BY actor_id;
+
 -- 39:  Para cada categoría, calcula la duración media y muestra solo las que superan 120.
 
 /* TABLAS QUE NECESITO:
