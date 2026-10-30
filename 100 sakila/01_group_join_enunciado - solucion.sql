@@ -407,6 +407,18 @@ GROUP BY category_id
 ORDER BY COUNT(film_id) DESC;
 
 -- 33:  Para cada película, cuenta cuántos alquileres se han hecho de sus copias.
+
+/* TABLAS QUE NECESITO:
+film -> inventory -> rental
+*/
+
+SELECT title, COUNT(rental_id)
+FROM film
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY film_id
+ORDER BY COUNT(film_id) DESC;
+
 -- 34:  Para cada cliente, suma el importe pagado en 2005 y filtra clientes con total >= 150.
 -- 35:  Para cada tienda, suma el importe cobrado por todos sus empleados.
 -- 36:  Para cada ciudad, cuenta cuántos empleados residen ahí (staff -> address -> city).
