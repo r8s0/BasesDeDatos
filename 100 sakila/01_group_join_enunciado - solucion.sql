@@ -678,7 +678,7 @@ GROUP BY staff_id;
 city -> address -> store -> inventory -> film
 */
 
-SELECT city AS ciudad, COUNT(film_id)
+SELECT city AS ciudad, COUNT(film_id) AS num_peliculas
 FROM city
         JOIN address USING (city_id)
         JOIN customer USING (address_id)
@@ -688,6 +688,18 @@ WHERE YEAR(rental_date) = 2006
 GROUP BY city_id;
 
 -- 55:  Para cada categoría, calcula el promedio de replacement_cost de sus películas.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film
+*/
+
+SELECT * FROM category JOIN film_category USING (category_id) JOIN film USING (film_id);
+SELECT name AS categoria, AVG(replacement_cost) AS media_replacement_cost
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+GROUP BY category_id;
+
 -- 56:  Para cada tienda, suma los importes cobrados en 2006 (vía empleados de esa tienda).
 -- 57:  Para cada actor, cuenta cuántas películas tienen título de más de 12 caracteres.
 -- 58:  Para cada ciudad, calcula la suma de pagos de 2005 y filtra las ciudades con total >= 300.
