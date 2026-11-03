@@ -755,6 +755,18 @@ WHERE rating = 'PG' || rating = 'PG-13'
 GROUP BY category_id;
 
 -- 60:  Para cada cliente, calcula el total pagado en pagos procesados por el empleado 2.
+
+/* TABLAS QUE NECESITO:
+customer -> payment -> staff
+*/
+
+SELECT CONCAT(customer.first_name, ' ', customer.last_name) AS nombre, SUM(amount) AS total_pagado
+FROM customer
+        JOIN payment USING (customer_id)
+        JOIN staff USING (staff_id)
+WHERE staff_id = 2
+GROUP BY customer_id;
+
 -- ==============================================
 -- SECCIÓN C) 20 CONSULTAS CON JOIN DE 4 TABLAS
 -- ==============================================
