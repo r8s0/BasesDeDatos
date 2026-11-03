@@ -610,6 +610,18 @@ FROM category
 GROUP BY category_id;
 
 -- 49:  Para cada ciudad, suma los importes pagados por clientes que residen en esa ciudad.
+
+/* TABLAS QUE NECESITO:
+city -> address -> customer -> payment
+*/
+
+SELECT city AS ciudad, SUM(amount) AS importes_pagados
+FROM city
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN payment USING (customer_id)
+GROUP BY city_id;
+
 -- 50:  Para cada idioma, cuenta cuántos actores distintos participan en películas de ese idioma.
 -- 51:  Para cada tienda, cuenta cuántos clientes activos (active=1) tiene.
 -- 52:  Para cada cliente, cuenta en cuántas categorías distintas ha alquilado (aprox. vía film_category; requiere 4 tablas, aquí contamos películas 2006 por inventario).
