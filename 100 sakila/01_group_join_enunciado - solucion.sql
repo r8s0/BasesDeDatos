@@ -706,7 +706,7 @@ GROUP BY category_id;
 store -> staff -> payment
 */
 
-SELECT store_id, SUM(amount)
+SELECT store_id, SUM(amount) AS importes_cobrados
 FROM store
         JOIN staff USING (store_id)
         JOIN payment USING (staff_id)
@@ -714,6 +714,18 @@ WHERE YEAR(payment_date) = 2006
 GROUP BY store_id;
 
 -- 57:  Para cada actor, cuenta cuántas películas tienen título de más de 12 caracteres.
+
+/* TABLAS QUE NECESITO:
+actor -> film_actor -> film
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id)
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+WHERE CHAR_LENGTH(title) > 12
+GROUP BY actor_id;
+
 -- 58:  Para cada ciudad, calcula la suma de pagos de 2005 y filtra las ciudades con total >= 300.
 -- 59:  Para cada categoría, cuenta cuántas películas tienen rating 'PG' o 'PG-13'.
 -- 60:  Para cada cliente, calcula el total pagado en pagos procesados por el empleado 2.
