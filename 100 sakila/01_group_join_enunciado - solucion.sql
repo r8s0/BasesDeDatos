@@ -536,8 +536,15 @@ GROUP BY actor_id;
 -- 43:  Para cada ciudad, cuenta cuántos clientes residen ahí (customer -> address -> city).
 
 /* TABLAS QUE NECESITO:
-
+city -> address -> customer
 */
+
+SELECT city, COUNT(customer_id)
+FROM city
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+GROUP BY city_id;
+
 -- 44:  Para cada categoría, muestra cuántos actores distintos participan en películas de esa categoría.
 -- 45:  Para cada tienda, cuenta cuántas copias totales (inventario) tiene de películas en 2006.
 -- 46:  Para cada cliente, suma el total pagado por alquileres cuyo empleado pertenece a la tienda 1.
