@@ -661,6 +661,17 @@ WHERE YEAR(rental_date) = 2006
 GROUP BY customer_id;
 
 -- 53:  Para cada empleado, cuenta cuántos clientes diferentes le han pagado.
+
+/* TABLAS QUE NECESITO:
+staff -> payment -> customer
+*/
+
+SELECT CONCAT(staff.first_name, ' ', staff.last_name) AS nombre_staff, COUNT(DISTINCT customer_id)
+FROM staff
+        JOIN payment USING (staff_id)
+        JOIN customer USING (customer_id)
+GROUP BY staff_id;
+
 -- 54:  Para cada ciudad, cuenta cuántas películas del año 2006 han sido alquiladas por residentes en esa ciudad.
 -- 55:  Para cada categoría, calcula el promedio de replacement_cost de sus películas.
 -- 56:  Para cada tienda, suma los importes cobrados en 2006 (vía empleados de esa tienda).
