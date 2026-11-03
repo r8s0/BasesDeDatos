@@ -635,6 +635,17 @@ FROM language
 GROUP BY language_id;
 
 -- 51:  Para cada tienda, cuenta cuántos clientes activos (active=1) tiene.
+
+/* TABLAS QUE NECESITO:
+store -> customer
+*/
+
+SELECT store_id, COUNT(customer_id) AS clientes_activos
+FROM store
+        JOIN customer USING (store_id)
+WHERE active = 1
+GROUP BY store_id;
+
 -- 52:  Para cada cliente, cuenta en cuántas categorías distintas ha alquilado (aprox. vía film_category; requiere 4 tablas, aquí contamos películas 2006 por inventario).
 -- 53:  Para cada empleado, cuenta cuántos clientes diferentes le han pagado.
 -- 54:  Para cada ciudad, cuenta cuántas películas del año 2006 han sido alquiladas por residentes en esa ciudad.
