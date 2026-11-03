@@ -701,6 +701,18 @@ FROM category
 GROUP BY category_id;
 
 -- 56:  Para cada tienda, suma los importes cobrados en 2006 (vía empleados de esa tienda).
+
+/* TABLAS QUE NECESITO:
+store -> staff -> payment
+*/
+
+SELECT store_id, SUM(amount)
+FROM store
+        JOIN staff USING (store_id)
+        JOIN payment USING (staff_id)
+WHERE YEAR(payment_date) = 2006
+GROUP BY store_id;
+
 -- 57:  Para cada actor, cuenta cuántas películas tienen título de más de 12 caracteres.
 -- 58:  Para cada ciudad, calcula la suma de pagos de 2005 y filtra las ciudades con total >= 300.
 -- 59:  Para cada categoría, cuenta cuántas películas tienen rating 'PG' o 'PG-13'.
