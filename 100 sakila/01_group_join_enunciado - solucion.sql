@@ -673,6 +673,20 @@ FROM staff
 GROUP BY staff_id;
 
 -- 54:  Para cada ciudad, cuenta cuántas películas del año 2006 han sido alquiladas por residentes en esa ciudad.
+
+/* TABLAS QUE NECESITO:
+city -> address -> store -> inventory -> film
+*/
+
+SELECT city AS ciudad, COUNT(film_id)
+FROM city
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN rental USING (customer_id)
+        JOIN inventory USING (inventory_id)
+WHERE YEAR(rental_date) = 2006
+GROUP BY city_id;
+
 -- 55:  Para cada categoría, calcula el promedio de replacement_cost de sus películas.
 -- 56:  Para cada tienda, suma los importes cobrados en 2006 (vía empleados de esa tienda).
 -- 57:  Para cada actor, cuenta cuántas películas tienen título de más de 12 caracteres.
