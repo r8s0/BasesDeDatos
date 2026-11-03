@@ -623,6 +623,17 @@ FROM city
 GROUP BY city_id;
 
 -- 50:  Para cada idioma, cuenta cuántos actores distintos participan en películas de ese idioma.
+
+/* TABLAS QUE NECESITO:
+language -> film -> film_actor
+*/
+
+SELECT name, COUNT(DISTINCT actor_id) AS num_actores
+FROM language
+        JOIN film USING (language_id)
+        JOIN film_actor USING (film_id)
+GROUP BY language_id;
+
 -- 51:  Para cada tienda, cuenta cuántos clientes activos (active=1) tiene.
 -- 52:  Para cada cliente, cuenta en cuántas categorías distintas ha alquilado (aprox. vía film_category; requiere 4 tablas, aquí contamos películas 2006 por inventario).
 -- 53:  Para cada empleado, cuenta cuántos clientes diferentes le han pagado.
