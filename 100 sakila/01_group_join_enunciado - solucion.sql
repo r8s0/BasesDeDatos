@@ -546,6 +546,18 @@ FROM city
 GROUP BY city_id;
 
 -- 44:  Para cada categoría, muestra cuántos actores distintos participan en películas de esa categoría.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film -> film_actor
+*/
+
+SELECT name, COUNT(DISTINCT actor_id)
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN film_actor USING (film_id)
+GROUP BY category_id;
+
 -- 45:  Para cada tienda, cuenta cuántas copias totales (inventario) tiene de películas en 2006.
 -- 46:  Para cada cliente, suma el total pagado por alquileres cuyo empleado pertenece a la tienda 1.
 -- 47:  Para cada película, cuenta cuántos actores tienen el apellido de longitud >= 5.
