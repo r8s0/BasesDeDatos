@@ -539,7 +539,7 @@ GROUP BY actor_id;
 city -> address -> customer
 */
 
-SELECT city, COUNT(customer_id)
+SELECT city, COUNT(customer_id) AS num_clientes
 FROM city
         JOIN address USING (city_id)
         JOIN customer USING (address_id)
@@ -551,7 +551,7 @@ GROUP BY city_id;
 category -> film_category -> film -> film_actor
 */
 
-SELECT name, COUNT(DISTINCT actor_id)
+SELECT name AS categoria, COUNT(DISTINCT actor_id) AS num_actores
 FROM category
         JOIN film_category USING (category_id)
         JOIN film USING (film_id)
@@ -564,13 +564,26 @@ GROUP BY category_id;
 store -> inventory
 */
 
-SELECT store_id, COUNT(inventory_id)
+SELECT store_id, COUNT(inventory_id) AS num_peliculas
 FROM store
         JOIN inventory USING (store_id)
+WHERE YEAR(inventory.last_update) = 2006
 GROUP BY store_id
 ORDER BY COUNT(inventory_id) DESC;
 
 -- 46:  Para cada cliente, suma el total pagado por alquileres cuyo empleado pertenece a la tienda 1.
+
+/* TABLAS QUE NECESITO:
+customer -> payment -> staff
+*/
+
+SELECT CONCAT(customer.first_name, ' ', customer.last_name) AS nombre, SUM(amount) AS total_pagado
+FROM customer
+        JOIN payment USING (customer_id)
+        JOIN staff USING (staff_id)
+WHERE staff.store_id = 1
+GROUP BY customer_id;
+
 -- 47:  Para cada película, cuenta cuántos actores tienen el apellido de longitud >= 5.
 -- 48:  Para cada categoría, suma la duración total (length) de sus películas.
 -- 49:  Para cada ciudad, suma los importes pagados por clientes que residen en esa ciudad.
