@@ -742,6 +742,18 @@ GROUP BY city_id
 HAVING SUM(amount) >= 300;
 
 -- 59:  Para cada categoría, cuenta cuántas películas tienen rating 'PG' o 'PG-13'.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film
+*/
+
+SELECT name AS categoria, COUNT(film_id) AS num_peliculas
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+WHERE rating = 'PG' || rating = 'PG-13'
+GROUP BY category_id;
+
 -- 60:  Para cada cliente, calcula el total pagado en pagos procesados por el empleado 2.
 -- ==============================================
 -- SECCIÓN C) 20 CONSULTAS CON JOIN DE 4 TABLAS
