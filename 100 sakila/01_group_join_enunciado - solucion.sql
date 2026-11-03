@@ -647,6 +647,19 @@ WHERE active = 1
 GROUP BY store_id;
 
 -- 52:  Para cada cliente, cuenta en cuántas categorías distintas ha alquilado (aprox. vía film_category; requiere 4 tablas, aquí contamos películas 2006 por inventario).
+
+/* TABLAS QUE NECESITO:
+customer -> rental -> inventory -> film_category
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT category_id) AS categorias_distintas_alquiladas
+FROM customer
+        JOIN rental USING (customer_id)
+        JOIN inventory USING (inventory_id)
+        JOIN film_category USING (film_id)
+WHERE YEAR(rental_date) = 2006
+GROUP BY customer_id;
+
 -- 53:  Para cada empleado, cuenta cuántos clientes diferentes le han pagado.
 -- 54:  Para cada ciudad, cuenta cuántas películas del año 2006 han sido alquiladas por residentes en esa ciudad.
 -- 55:  Para cada categoría, calcula el promedio de replacement_cost de sus películas.
