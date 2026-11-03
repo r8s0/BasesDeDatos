@@ -559,6 +559,17 @@ FROM category
 GROUP BY category_id;
 
 -- 45:  Para cada tienda, cuenta cuántas copias totales (inventario) tiene de películas en 2006.
+
+/* TABLAS QUE NECESITO:
+store -> inventory
+*/
+
+SELECT store_id, COUNT(inventory_id)
+FROM store
+        JOIN inventory USING (store_id)
+GROUP BY store_id
+ORDER BY COUNT(inventory_id) DESC;
+
 -- 46:  Para cada cliente, suma el total pagado por alquileres cuyo empleado pertenece a la tienda 1.
 -- 47:  Para cada película, cuenta cuántos actores tienen el apellido de longitud >= 5.
 -- 48:  Para cada categoría, suma la duración total (length) de sus películas.
