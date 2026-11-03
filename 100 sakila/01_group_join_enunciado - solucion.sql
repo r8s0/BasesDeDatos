@@ -598,6 +598,17 @@ WHERE LENGTH(last_name) >= 5
 GROUP BY film_id;
 
 -- 48:  Para cada categoría, suma la duración total (length) de sus películas.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film
+*/
+
+SELECT name AS categoria, SUM(length) AS duracion_total
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+GROUP BY category_id;
+
 -- 49:  Para cada ciudad, suma los importes pagados por clientes que residen en esa ciudad.
 -- 50:  Para cada idioma, cuenta cuántos actores distintos participan en películas de ese idioma.
 -- 51:  Para cada tienda, cuenta cuántos clientes activos (active=1) tiene.
