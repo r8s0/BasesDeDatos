@@ -727,6 +727,20 @@ WHERE CHAR_LENGTH(title) > 12
 GROUP BY actor_id;
 
 -- 58:  Para cada ciudad, calcula la suma de pagos de 2005 y filtra las ciudades con total >= 300.
+
+/* TABLAS QUE NECESITO:
+city -> address -> customer -> payment
+*/
+
+SELECT city AS ciudad, SUM(amount) AS suma_pagos
+FROM city
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN payment USING (customer_id)
+WHERE YEAR(payment_date) = 2005
+GROUP BY city_id
+HAVING SUM(amount) >= 300;
+
 -- 59:  Para cada categoría, cuenta cuántas películas tienen rating 'PG' o 'PG-13'.
 -- 60:  Para cada cliente, calcula el total pagado en pagos procesados por el empleado 2.
 -- ==============================================
