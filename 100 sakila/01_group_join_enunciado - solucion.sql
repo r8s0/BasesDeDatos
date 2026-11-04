@@ -869,8 +869,7 @@ GROUP BY customer_id;
 category -> film_category -> film -> inventory -> rental
 */
 
-SELECT * FROM category JOIN film_category USING (category_id) JOIN film USING (film_id) JOIN inventory USING (film_id) JOIN rental USING (inventory_id);
-SELECT name AS categoria, AVG(length)
+SELECT name AS categoria, AVG(length) AS duracion_media
 FROM category
         JOIN film_category USING (category_id)
         JOIN film USING (film_id)
@@ -879,6 +878,18 @@ FROM category
 GROUP BY category_id;
 
 -- 69:  Para cada país, cuenta cuántos clientes hay (country -> city -> address -> customer).
+
+/* TABLAS QUE NECESITO:
+country -> city -> address -> customer
+*/
+
+SELECT country AS pais, COUNT(customer_id) AS num_clientes
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+GROUP BY country_id;
+
 -- 70:  Para cada país, suma los importes pagados por sus clientes.
 -- 71:  Para cada tienda, cuenta cuántas categorías distintas existen en su inventario.
 -- 72:  Para cada tienda, suma la recaudación por categoría (resultado agregado por tienda y categoría).
