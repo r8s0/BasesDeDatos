@@ -844,7 +844,7 @@ GROUP BY store_id;
 language -> film -> inventory -> rental
 */
 
-SELECT name AS idioma, COUNT(rental_id)
+SELECT name AS idioma, COUNT(rental_id) AS num_alquileres
 FROM language
         JOIN film USING (language_id)
         JOIN inventory USING (film_id)
@@ -852,6 +852,17 @@ FROM language
 GROUP BY language_id;
 
 -- 67:  Para cada cliente, cuenta en cuántos meses distintos de 2005 realizó pagos (meses distintos).
+
+/* TABLAS QUE NECESITO:
+customer -> payment
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT MONTH(payment_date))
+FROM customer
+        JOIN payment USING (customer_id)
+WHERE YEAR(payment_date) = 2005
+GROUP BY customer_id;
+
 -- 68:  Para cada categoría, calcula la duración media de las películas alquiladas (considerando solo películas alquiladas).
 -- 69:  Para cada país, cuenta cuántos clientes hay (country -> city -> address -> customer).
 -- 70:  Para cada país, suma los importes pagados por sus clientes.
