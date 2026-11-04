@@ -1011,6 +1011,20 @@ WHERE YEAR(payment_date) = 2005
 GROUP BY store_id;
 
 -- 79:  Para cada categoría, cuenta cuántas películas con título de longitud > 15 han sido alquiladas.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film -> inventory -> rental
+*/
+
+SELECT name AS categoria, COUNT(film_id) AS num_peliculas
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+WHERE CHAR_LENGTH(title) > 15
+GROUP BY category_id;
+
 -- 80:  Para cada país, suma los pagos procesados por los empleados de las tiendas ubicadas en ese país.
 -- ==============================================
 -- SECCIÓN D) 20 CONSULTAS EXTRA (DIFICULTAD +), <=4 JOINS
