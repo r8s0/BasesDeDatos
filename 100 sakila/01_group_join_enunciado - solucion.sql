@@ -839,6 +839,18 @@ FROM store
 GROUP BY store_id;
 
 -- 66:  Para cada idioma, cuenta cuántos alquileres totales se han hecho de películas en ese idioma.
+
+/* TABLAS QUE NECESITO:
+language -> film -> inventory -> rental
+*/
+
+SELECT name AS idioma, COUNT(rental_id)
+FROM language
+        JOIN film USING (language_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY language_id;
+
 -- 67:  Para cada cliente, cuenta en cuántos meses distintos de 2005 realizó pagos (meses distintos).
 -- 68:  Para cada categoría, calcula la duración media de las películas alquiladas (considerando solo películas alquiladas).
 -- 69:  Para cada país, cuenta cuántos clientes hay (country -> city -> address -> customer).
