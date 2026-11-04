@@ -947,6 +947,19 @@ FROM actor
 GROUP BY actor_id;
 
 -- 74:  Para cada categoría, cuenta cuántos clientes distintos han alquilado películas de esa categoría.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film -> inventory -> rental
+*/
+
+SELECT name AS categoria, COUNT(DISTINCT customer_id) AS clientes_alquilado
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY category_id;
+
 -- 75:  Para cada idioma, cuenta cuántos actores distintos participan en películas alquiladas en ese idioma.
 -- 76:  Para cada país, cuenta cuántas tiendas hay (país->ciudad->address->store).
 -- 77:  Para cada cliente, cuenta los alquileres en los que la devolución (return_date) fue el mismo día del alquiler.
