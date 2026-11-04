@@ -857,13 +857,27 @@ GROUP BY language_id;
 customer -> payment
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT MONTH(payment_date))
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT MONTH(payment_date)) AS meses_distintos
 FROM customer
         JOIN payment USING (customer_id)
 WHERE YEAR(payment_date) = 2005
 GROUP BY customer_id;
 
 -- 68:  Para cada categoría, calcula la duración media de las películas alquiladas (considerando solo películas alquiladas).
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> film -> inventory -> rental
+*/
+
+SELECT * FROM category JOIN film_category USING (category_id) JOIN film USING (film_id) JOIN inventory USING (film_id) JOIN rental USING (inventory_id);
+SELECT name AS categoria, AVG(length)
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY category_id;
+
 -- 69:  Para cada país, cuenta cuántos clientes hay (country -> city -> address -> customer).
 -- 70:  Para cada país, suma los importes pagados por sus clientes.
 -- 71:  Para cada tienda, cuenta cuántas categorías distintas existen en su inventario.
