@@ -771,6 +771,19 @@ GROUP BY customer_id;
 -- SECCIÓN C) 20 CONSULTAS CON JOIN DE 4 TABLAS
 -- ==============================================
 -- 61:  Para cada ciudad, cuenta cuántos clientes hay y muestra solo ciudades con 10 o más clientes.
+
+/* TABLAS QUE NECESITO:
+city -> address -> customer
+*/ 
+
+SELECT * FROM city JOIN address USING (city_id) JOIN store USING (address_id) JOIN customer USING (store_id);
+SELECT city AS ciudad, COUNT(DISTINCT customer_id)
+FROM city
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+GROUP BY city_id
+HAVING COUNT(DISTINCT customer_id) >= 10;
+
 -- 62:  Para cada actor, cuenta cuántos alquileres totales suman todas sus películas.
 -- 63:  Para cada categoría, suma los importes pagados derivados de películas de esa categoría.
 -- 64:  Para cada ciudad, suma los importes pagados por clientes residentes en esa ciudad en 2005.
