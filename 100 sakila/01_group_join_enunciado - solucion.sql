@@ -799,6 +799,20 @@ FROM actor
 GROUP BY actor_id;
 
 -- 63:  Para cada categoría, suma los importes pagados derivados de películas de esa categoría.
+
+/* TABLAS QUE NECESITO:
+category -> film_category -> inventory -> rental -> payment
+*/
+
+SELECT * FROM category JOIN film_category USING (category_id) JOIN inventory USING (film_id) JOIN rental USING (inventory_id) JOIN payment USING (rental_id);
+SELECT name AS categoria, SUM(amount) AS importes_peliculas
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+        JOIN payment USING (rental_id)
+GROUP BY category_id;
+
 -- 64:  Para cada ciudad, suma los importes pagados por clientes residentes en esa ciudad en 2005.
 -- 65:  Para cada tienda, cuenta cuántos actores distintos aparecen en las películas de su inventario.
 -- 66:  Para cada idioma, cuenta cuántos alquileres totales se han hecho de películas en ese idioma.
