@@ -777,7 +777,7 @@ city -> address -> customer
 */ 
 
 SELECT * FROM city JOIN address USING (city_id) JOIN store USING (address_id) JOIN customer USING (store_id);
-SELECT city AS ciudad, COUNT(DISTINCT customer_id)
+SELECT city AS ciudad, COUNT(DISTINCT customer_id) AS num_clientes
 FROM city
         JOIN address USING (city_id)
         JOIN customer USING (address_id)
@@ -785,6 +785,19 @@ GROUP BY city_id
 HAVING COUNT(DISTINCT customer_id) >= 10;
 
 -- 62:  Para cada actor, cuenta cuántos alquileres totales suman todas sus películas.
+
+/* TABLAS QUE NECEISTO:
+actor -> film_actor -> inventory -> rental
+*/
+
+SELECT * FROM actor JOIN film_actor USING (actor_id) JOIN inventory USING (film_id) JOIN rental USING (inventory_id);
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(rental_id) AS peliculas_alquiladas
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY actor_id;
+
 -- 63:  Para cada categoría, suma los importes pagados derivados de películas de esa categoría.
 -- 64:  Para cada ciudad, suma los importes pagados por clientes residentes en esa ciudad en 2005.
 -- 65:  Para cada tienda, cuenta cuántos actores distintos aparecen en las películas de su inventario.
