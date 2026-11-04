@@ -905,6 +905,18 @@ FROM country
 GROUP BY country_id;
 
 -- 71:  Para cada tienda, cuenta cuántas categorías distintas existen en su inventario.
+
+/* TABLAS QUE NECESITO:
+store -> inventory -> film -> film_category
+*/
+
+SELECT store_id, COUNT(DISTINCT category_id) AS num_categorias
+FROM store
+        JOIN inventory USING (store_id)
+        JOIN film USING (film_id)
+        JOIN film_category USING (film_id)
+GROUP BY store_id;
+
 -- 72:  Para cada tienda, suma la recaudación por categoría (resultado agregado por tienda y categoría).
 -- 73:  Para cada actor, cuenta en cuántas tiendas distintas se han alquilado sus películas.
 -- 74:  Para cada categoría, cuenta cuántos clientes distintos han alquilado películas de esa categoría.
