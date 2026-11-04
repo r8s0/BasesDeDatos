@@ -826,6 +826,18 @@ FROM city
 GROUP BY city_id;
 
 -- 65:  Para cada tienda, cuenta cuántos actores distintos aparecen en las películas de su inventario.
+
+/* TABLAS QUE NECESITO:
+store -> inventory -> film -> film_actor
+*/
+
+SELECT store_id, COUNT(DISTINCT actor_id) AS num_actores_distintos
+FROM store
+        JOIN inventory USING (store_id)
+        JOIN film USING (film_id)
+        JOIN film_actor USING (film_id)
+GROUP BY store_id;
+
 -- 66:  Para cada idioma, cuenta cuántos alquileres totales se han hecho de películas en ese idioma.
 -- 67:  Para cada cliente, cuenta en cuántos meses distintos de 2005 realizó pagos (meses distintos).
 -- 68:  Para cada categoría, calcula la duración media de las películas alquiladas (considerando solo películas alquiladas).
