@@ -891,6 +891,19 @@ FROM country
 GROUP BY country_id;
 
 -- 70:  Para cada país, suma los importes pagados por sus clientes.
+
+/* TABLAS QUE NECESITO:
+country -> city -> address -> customer -> payment
+*/
+
+SELECT country AS pais, SUM(amount) AS importes_pagados
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN payment USING (customer_id)
+GROUP BY country_id;
+
 -- 71:  Para cada tienda, cuenta cuántas categorías distintas existen en su inventario.
 -- 72:  Para cada tienda, suma la recaudación por categoría (resultado agregado por tienda y categoría).
 -- 73:  Para cada actor, cuenta en cuántas tiendas distintas se han alquilado sus películas.
