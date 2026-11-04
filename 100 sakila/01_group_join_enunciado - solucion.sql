@@ -991,13 +991,25 @@ GROUP BY country_id;
 customer -> rental
 */
 
-SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(return_date)
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(return_date) AS devolucion_mismo_dia
 FROM customer
         JOIN rental USING (customer_id)
 WHERE DAY(return_date) = DAY(rental_date)
 GROUP BY customer_id;
 
 -- 78:  Para cada tienda, cuenta cuántos clientes distintos realizaron pagos en 2005.
+
+/* TABLAS QUE NECESITO:
+store -> staff -> payment
+*/
+
+SELECT store_id, COUNT(DISTINCT customer_id) AS clientes_distintos
+FROM store
+        JOIN staff USING (store_id)
+        JOIN payment USING (staff_id)
+WHERE YEAR(payment_date) = 2005
+GROUP BY store_id;
+
 -- 79:  Para cada categoría, cuenta cuántas películas con título de longitud > 15 han sido alquiladas.
 -- 80:  Para cada país, suma los pagos procesados por los empleados de las tiendas ubicadas en ese país.
 -- ==============================================
