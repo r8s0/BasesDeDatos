@@ -961,6 +961,17 @@ FROM category
 GROUP BY category_id;
 
 -- 75:  Para cada idioma, cuenta cuántos actores distintos participan en películas alquiladas en ese idioma.
+
+/* TABLAS QUE NECESITO:
+language -> film -> film_actor
+*/
+
+SELECT name AS idioma, COUNT(DISTINCT actor_id) AS actores_distintos
+FROM language
+        JOIN film USING (language_id)
+        JOIN film_actor USING (film_id)
+GROUP BY language_id;
+
 -- 76:  Para cada país, cuenta cuántas tiendas hay (país->ciudad->address->store).
 -- 77:  Para cada cliente, cuenta los alquileres en los que la devolución (return_date) fue el mismo día del alquiler.
 -- 78:  Para cada tienda, cuenta cuántos clientes distintos realizaron pagos en 2005.
