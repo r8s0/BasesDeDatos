@@ -918,6 +918,21 @@ FROM store
 GROUP BY store_id;
 
 -- 72:  Para cada tienda, suma la recaudación por categoría (resultado agregado por tienda y categoría).
+
+/* TABLAS QUE NECESITO:
+payment -> staff -> rental -> inventory -> film_category -> category
+*/
+
+SELECT staff.store_id, name AS categoria, SUM(amount) AS recaudacion
+FROM payment
+		JOIN staff USING (staff_id)
+		JOIN rental USING (rental_id)
+		JOIN inventory USING (inventory_id)
+		JOIN film_category USING (film_id)
+		JOIN category USING (category_id)
+GROUP BY staff.store_id, category_id
+ORDER BY category_id ASC, staff.store_id DESC;
+
 -- 73:  Para cada actor, cuenta en cuántas tiendas distintas se han alquilado sus películas.
 -- 74:  Para cada categoría, cuenta cuántos clientes distintos han alquilado películas de esa categoría.
 -- 75:  Para cada idioma, cuenta cuántos actores distintos participan en películas alquiladas en ese idioma.
