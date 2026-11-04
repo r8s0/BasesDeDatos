@@ -1026,6 +1026,19 @@ WHERE CHAR_LENGTH(title) > 15
 GROUP BY category_id;
 
 -- 80:  Para cada país, suma los pagos procesados por los empleados de las tiendas ubicadas en ese país.
+
+/* TABLAS QUE NECESITO:
+country -> city -> address -> staff -> payment
+*/
+
+SELECT country AS pais, SUM(amount) AS dinero_procesado_staff
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN staff USING (address_id)
+        JOIN payment USING (staff_id)
+GROUP BY country_id;
+
 -- ==============================================
 -- SECCIÓN D) 20 CONSULTAS EXTRA (DIFICULTAD +), <=4 JOINS
 -- ==============================================
