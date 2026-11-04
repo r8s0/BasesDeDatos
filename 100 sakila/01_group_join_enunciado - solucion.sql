@@ -986,6 +986,17 @@ FROM country
 GROUP BY country_id;
 
 -- 77:  Para cada cliente, cuenta los alquileres en los que la devolución (return_date) fue el mismo día del alquiler.
+
+/* TABLAS QUE NECESITO:
+customer -> rental
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(return_date)
+FROM customer
+        JOIN rental USING (customer_id)
+WHERE DAY(return_date) = DAY(rental_date)
+GROUP BY customer_id;
+
 -- 78:  Para cada tienda, cuenta cuántos clientes distintos realizaron pagos en 2005.
 -- 79:  Para cada categoría, cuenta cuántas películas con título de longitud > 15 han sido alquiladas.
 -- 80:  Para cada país, suma los pagos procesados por los empleados de las tiendas ubicadas en ese país.
