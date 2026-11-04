@@ -973,6 +973,18 @@ FROM language
 GROUP BY language_id;
 
 -- 76:  Para cada país, cuenta cuántas tiendas hay (país->ciudad->address->store).
+
+/* TABLAS QUE NECESITO:
+country -> city -> address -> store
+*/
+
+SELECT country AS pais, COUNT(store_id) AS num_tiendas
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN store USING (address_id)
+GROUP BY country_id;
+
 -- 77:  Para cada cliente, cuenta los alquileres en los que la devolución (return_date) fue el mismo día del alquiler.
 -- 78:  Para cada tienda, cuenta cuántos clientes distintos realizaron pagos en 2005.
 -- 79:  Para cada categoría, cuenta cuántas películas con título de longitud > 15 han sido alquiladas.
