@@ -934,6 +934,18 @@ GROUP BY staff.store_id, category_id
 ORDER BY category_id ASC, staff.store_id DESC;
 
 -- 73:  Para cada actor, cuenta en cuántas tiendas distintas se han alquilado sus películas.
+
+/* TABLAS QUE NECESITO:
+actor -> film_actor -> film -> inventory 
+*/
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT store_id) AS tiendas_distintas
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+GROUP BY actor_id;
+
 -- 74:  Para cada categoría, cuenta cuántos clientes distintos han alquilado películas de esa categoría.
 -- 75:  Para cada idioma, cuenta cuántos actores distintos participan en películas alquiladas en ese idioma.
 -- 76:  Para cada país, cuenta cuántas tiendas hay (país->ciudad->address->store).
