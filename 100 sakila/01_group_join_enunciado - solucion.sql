@@ -1111,7 +1111,6 @@ GROUP BY staff_id;
 actor -> film_actor -> film
 */
 
-SELECT * FROM actor JOIN film_actor USING (actor_id) JOIN film USING (film_id);
 SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id)
 FROM actor
         JOIN film_actor USING (actor_id)
