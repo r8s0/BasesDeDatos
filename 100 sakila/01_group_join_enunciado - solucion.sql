@@ -1056,8 +1056,13 @@ GROUP BY customer_id;
 -- 82:  Para cada hora del día (0-23), cuenta cuántos alquileres se iniciaron en esa hora.
 
 /* TABLAS QUE NECESITO: 
-
+rental
 */
+
+SELECT HOUR(rental_date) AS hora, COUNT(rental_date) AS alquileres
+FROM rental
+GROUP BY HOUR(rental_date)
+ORDER BY HOUR(rental_date) ASC;
 
 -- 83:  Para cada tienda, muestra la media de length de las películas alquiladas en 2005 y filtra las tiendas con media >= 100.
 
