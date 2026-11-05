@@ -1121,8 +1121,16 @@ GROUP BY actor_id;
 -- 87:  Para cada idioma, muestra el total de pagos de alquileres de películas en ese idioma.
 
 /* TABLAS QUE NECESITO: 
-
+language -> film -> inventory -> rental -> payment
 */
+
+SELECT name AS idioma, SUM(amount) AS importe_total
+FROM language
+        JOIN film USING (language_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+        JOIN payment USING (rental_id)
+GROUP BY language_id;
 
 -- 88:  Para cada cliente, cuenta en cuántos días distintos de 2005 realizó algún alquiler.
 
