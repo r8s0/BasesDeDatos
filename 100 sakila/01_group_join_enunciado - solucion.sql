@@ -1108,8 +1108,16 @@ GROUP BY staff_id;
 -- 86:  Para cada actor, cuenta cuántas de sus películas tienen un título que contiene la palabra 'LOVE' (mayúsculas).
 
 /* TABLAS QUE NECESITO: 
-
+actor -> film_actor -> film
 */
+
+SELECT * FROM actor JOIN film_actor USING (actor_id) JOIN film USING (film_id);
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(film_id)
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN film USING (film_id)
+WHERE title LIKE '%LOVE%'
+GROUP BY actor_id;
 
 -- 87:  Para cada idioma, muestra el total de pagos de alquileres de películas en ese idioma.
 
