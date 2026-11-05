@@ -1135,8 +1135,14 @@ GROUP BY language_id;
 -- 88:  Para cada cliente, cuenta en cuántos días distintos de 2005 realizó algún alquiler.
 
 /* TABLAS QUE NECESITO: 
-
+customer -> rental
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(DISTINCT DATE(rental_date)) AS dias_distintos
+FROM customer
+        JOIN rental USING (customer_id)
+WHERE YEAR(rental_date) = 2005
+GROUP BY customer_id;
 
 -- 89:  Para cada categoría, calcula la longitud media de títulos (número de caracteres) de sus películas alquiladas.
 
