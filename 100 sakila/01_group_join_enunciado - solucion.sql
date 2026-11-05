@@ -1067,8 +1067,16 @@ ORDER BY HOUR(rental_date) ASC;
 -- 83:  Para cada tienda, muestra la media de length de las películas alquiladas en 2005 y filtra las tiendas con media >= 100.
 
 /* TABLAS QUE NECESITO: 
-
+film -> inventory -> rental
 */
+
+SELECT store_id, AVG(length) AS duracion_media
+FROM film
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+WHERE YEAR(rental_date) = 2005
+GROUP BY store_id
+HAVING AVG(length) >= 100;
 
 -- 84:  Para cada categoría, muestra la media de replacement_cost de las películas alquiladas un domingo.
 
