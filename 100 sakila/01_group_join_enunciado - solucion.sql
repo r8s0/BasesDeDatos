@@ -1081,8 +1081,17 @@ HAVING AVG(length) >= 100;
 -- 84:  Para cada categoría, muestra la media de replacement_cost de las películas alquiladas un domingo.
 
 /* TABLAS QUE NECESITO: 
-
+category -> film_category -> film -> inventory -> rental
 */
+
+SELECT name AS categoria, AVG(replacement_cost)
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+WHERE DAYOFWEEK(rental_date) = 1
+GROUP BY category_id;
 
 -- 85:  Para cada empleado, muestra el importe total por pagos realizados entre las 00:00 y 06:00 (inclusive 00:00, exclusivo 06:00).
 
