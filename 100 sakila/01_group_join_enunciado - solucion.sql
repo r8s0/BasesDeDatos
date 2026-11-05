@@ -1096,8 +1096,14 @@ GROUP BY category_id;
 -- 85:  Para cada empleado, muestra el importe total por pagos realizados entre las 00:00 y 06:00 (inclusive 00:00, exclusivo 06:00).
 
 /* TABLAS QUE NECESITO: 
-
+staff -> payment
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, SUM(amount) AS importe_total
+FROM staff
+        JOIN payment USING (staff_id)
+WHERE HOUR(payment_date) >= 0 AND HOUR(payment_date) < 6
+GROUP BY staff_id;
 
 -- 86:  Para cada actor, cuenta cuántas de sus películas tienen un título que contiene la palabra 'LOVE' (mayúsculas).
 
