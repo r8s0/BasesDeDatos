@@ -1150,7 +1150,7 @@ GROUP BY customer_id;
 category -> film_category -> film -> inventory -> rental
 */
 
-SELECT name AS categoria, AVG(CHAR_LENGTH(title))
+SELECT name AS categoria, AVG(CHAR_LENGTH(title)) AS caracteres_medios_titulos
 FROM category
         JOIN film_category USING (category_id)
         JOIN film USING (film_id)
@@ -1161,8 +1161,17 @@ GROUP BY category_id;
 -- 90:  Para cada tienda, cuenta cuántos clientes distintos alquilaron en el primer trimestre de 2006 (enero-marzo).
 
 /* TABLAS QUE NECESITO: 
-
+store -> customer -> rental
 */
+
+SELECT * FROM store JOIN customer USING (store_id) JOIN rental USING (customer_id);
+SELECT store.store_id, COUNT(DISTINCT customer_id)
+FROM store
+		JOIN inventory USING (store_id)
+        JOIN rental USING (inventory_id)
+        JOIN customer USING (customer_id)
+WHERE MONTH(rental_date) = 1 OR MONTH(rental_date) = 2 OR MONTH(rental_date) = 3 AND YEAR(rental_date) = 2006
+GROUP BY store.store_id;
 
 -- 91:  Para cada país, cuenta cuántas categorías diferentes han sido alquiladas por clientes residentes en ese país.
 
