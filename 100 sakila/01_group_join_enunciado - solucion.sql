@@ -1164,8 +1164,7 @@ GROUP BY category_id;
 store -> customer -> rental
 */
 
-SELECT * FROM store JOIN customer USING (store_id) JOIN rental USING (customer_id);
-SELECT store.store_id, COUNT(DISTINCT customer_id)
+SELECT store.store_id, COUNT(DISTINCT customer_id) AS clientes_distintos
 FROM store
 		JOIN inventory USING (store_id)
         JOIN rental USING (inventory_id)
@@ -1176,8 +1175,18 @@ GROUP BY store.store_id;
 -- 91:  Para cada país, cuenta cuántas categorías diferentes han sido alquiladas por clientes residentes en ese país.
 
 /* TABLAS QUE NECESITO: 
-
+country -> city -> address -> customer -> rental -> inventory -> film_category
 */
+
+SELECT country AS pais, COUNT(DISTINCT category_id)
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN rental USING (customer_id)
+        JOIN inventory USING (inventory_id)
+        JOIN film_category USING (film_id)
+GROUP BY country_id;
 
 -- 92:  Para cada cliente, muestra el importe medio de sus pagos redondeado a 2 decimales, solo si ha hecho al menos 10 pagos.
 
