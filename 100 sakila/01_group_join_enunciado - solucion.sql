@@ -1147,8 +1147,16 @@ GROUP BY customer_id;
 -- 89:  Para cada categoría, calcula la longitud media de títulos (número de caracteres) de sus películas alquiladas.
 
 /* TABLAS QUE NECESITO: 
-
+category -> film_category -> film -> inventory -> rental
 */
+
+SELECT name AS categoria, AVG(CHAR_LENGTH(title))
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY category_id;
 
 -- 90:  Para cada tienda, cuenta cuántos clientes distintos alquilaron en el primer trimestre de 2006 (enero-marzo).
 
