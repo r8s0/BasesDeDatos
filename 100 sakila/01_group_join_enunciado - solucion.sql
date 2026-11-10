@@ -1191,8 +1191,14 @@ GROUP BY country_id;
 -- 92:  Para cada cliente, muestra el importe medio de sus pagos redondeado a 2 decimales, solo si ha hecho al menos 10 pagos.
 
 /* TABLAS QUE NECESITO: 
-
+customer -> payment
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS cliente, ROUND(AVG(amount), 2) AS importe_medio
+FROM customer
+        JOIN payment USING (customer_id)
+GROUP BY customer_id
+HAVING COUNT(payment_id) >= 10;
 
 -- 93:  Para cada categoría, muestra el número de películas con replacement_cost > 20 que hayan sido alquiladas al menos una vez.
 
