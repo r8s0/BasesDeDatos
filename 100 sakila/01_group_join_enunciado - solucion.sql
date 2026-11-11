@@ -1203,8 +1203,17 @@ HAVING COUNT(payment_id) >= 10;
 -- 93:  Para cada categoría, muestra el número de películas con replacement_cost > 20 que hayan sido alquiladas al menos una vez.
 
 /* TABLAS QUE NECESITO: 
-
+category -> film_category -> film -> inventory -> rental
 */
+
+SELECT name AS categoria, COUNT(DISTINCT film_id) AS num_peliculas
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+WHERE replacement_cost > 20
+GROUP BY category_id;
 
 -- 94:  Para cada tienda, suma los importes pagados en fines de semana.
 
