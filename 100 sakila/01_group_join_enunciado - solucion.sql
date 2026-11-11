@@ -1290,8 +1290,15 @@ HAVING COUNT(rental_date) >= 5;
 -- 99:  Para cada tienda, muestra la media de importes cobrados por transacción en el año 2006, con dos decimales.
 
 /* TABLAS QUE NECESITO: 
-
+store -> staff -> payment
 */
+
+SELECT store_id AS tienda, ROUND(AVG(amount),2) AS media_importes_cobrados
+FROM store
+        JOIN staff USING (store_id)
+        JOIN payment USING (staff_id)
+WHERE YEAR(payment_date) = 2006
+GROUP BY store_id;
 
 -- 100:  Para cada categoría, calcula la media de duración (length) de películas alquiladas en 2006 y ordénalas descendentemente por dicha media.
 
