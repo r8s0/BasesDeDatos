@@ -1260,8 +1260,18 @@ GROUP BY language_id;
 -- 97:  Para cada país, suma el importe total de pagos realizados por clientes residentes y filtra países con total >= 1000.
 
 /* TABLAS QUE NECESITO: 
-
+country -> city -> address -> customer -> payment
 */
+
+SELECT * FROM country JOIN city USING (country_id) JOIN address USING (city_id) JOIN customer USING (address_id) JOIN payment USING (customer_id);
+SELECT country AS pais, SUM(amount) AS importe_total
+FROM country
+        JOIN city USING (country_id)
+        JOIN address USING (city_id)
+        JOIN customer USING (address_id)
+        JOIN payment USING (customer_id)
+GROUP BY country_id
+HAVING SUM(amount) >= 1000;
 
 -- 98:  Para cada cliente, cuenta cuántos días han pasado entre su primer y su último alquiler en 2005 (diferencia de fechas), mostrando solo clientes con >= 5 alquileres en 2005.
 --     (Se evita subconsulta calculando sobre el conjunto agrupado por cliente y usando MIN/MAX de rental_date en 2005).
