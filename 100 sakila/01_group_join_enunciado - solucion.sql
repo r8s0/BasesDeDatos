@@ -1303,6 +1303,15 @@ GROUP BY store_id;
 -- 100:  Para cada categoría, calcula la media de duración (length) de películas alquiladas en 2006 y ordénalas descendentemente por dicha media.
 
 /* TABLAS QUE NECESITO: 
-
+category -> film_category -> film -> inventory -> rental
 */
 
+SELECT name AS categoria, AVG(length)
+FROM category
+        JOIN film_category USING (category_id)
+        JOIN film USING (film_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+WHERE YEAR(rental_date) = 2006
+GROUP BY category_id
+ORDER BY AVG(length) DESC;
