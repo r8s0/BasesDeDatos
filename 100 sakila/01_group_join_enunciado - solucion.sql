@@ -1306,7 +1306,7 @@ GROUP BY store_id;
 category -> film_category -> film -> inventory -> rental
 */
 
-SELECT name AS categoria, AVG(length)
+SELECT name AS categoria, AVG(length) AS duracion_media
 FROM category
         JOIN film_category USING (category_id)
         JOIN film USING (film_id)
