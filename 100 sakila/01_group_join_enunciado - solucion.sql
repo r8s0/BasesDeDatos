@@ -1218,8 +1218,16 @@ GROUP BY category_id;
 -- 94:  Para cada tienda, suma los importes pagados en fines de semana.
 
 /* TABLAS QUE NECESITO: 
-
+store -> customer -> payment
+store -> staff -> payment
 */
+
+SELECT store_id AS tienda, SUM(amount) AS importes_pagados
+FROM store
+        JOIN staff USING (store_id)
+        JOIN payment USING (staff_id)
+WHERE DAYOFWEEK(payment_date) = 1 OR DAYOFWEEK(payment_date) = 7
+GROUP BY store_id;
 
 -- 95:  Para cada actor, cuenta cuántas películas suyas fueron alquiladas por al menos 5 clientes distintos (se cuenta alquileres y luego se filtra por HAVING).
 
