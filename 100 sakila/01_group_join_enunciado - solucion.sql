@@ -1232,13 +1232,30 @@ GROUP BY store_id;
 -- 95:  Para cada actor, cuenta cuántas películas suyas fueron alquiladas por al menos 5 clientes distintos (se cuenta alquileres y luego se filtra por HAVING).
 
 /* TABLAS QUE NECESITO: 
-
+actor -> film_actor -> inventory -> rental
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS actor, COUNT(DISTINCT customer_id) AS num_clientes
+FROM actor
+        JOIN film_actor USING (actor_id)
+        JOIN inventory USING (film_id)
+        JOIN rental USING (inventory_id)
+GROUP BY actor_id
+HAVING COUNT(DISTINCT customer_id) >= 5;
+
+SELECT CONCAT(a.first_name, ' ', a.last_name), COUNT(film_id)
+FROM actor a
+JOIN film_actor fa USING (actor_id)
+JOIN inventory i USING (film_id)
+JOIN rental r USING (inventory_id)
+GROUP BY a.actor_id, fa.film_id
+HAVING COUNT(DISTINCT r.customer_id) >= 5;
+
 
 -- 96:  Para cada idioma, muestra el número de películas cuyo título empieza por la letra 'A' y que han sido alquiladas.
 
 /* TABLAS QUE NECESITO: 
-
+language -> film -> inventory -> rental
 */
 
 -- 97:  Para cada país, suma el importe total de pagos realizados por clientes residentes y filtra países con total >= 1000.
