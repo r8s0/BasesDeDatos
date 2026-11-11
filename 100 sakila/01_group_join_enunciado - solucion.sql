@@ -1277,8 +1277,15 @@ HAVING SUM(amount) >= 1000;
 --     (Se evita subconsulta calculando sobre el conjunto agrupado por cliente y usando MIN/MAX de rental_date en 2005).
 
 /* TABLAS QUE NECESITO: 
-
+customer -> rental
 */
+
+SELECT CONCAT(first_name, ' ', last_name) AS cliente, DATEDIFF(MAX(rental_date), MIN(rental_date)) AS diferencia_dias
+FROM customer
+        JOIN rental USING (customer_id)
+WHERE rental_date >= '2005-01-01' AND rental_date < '2006-01-01'
+GROUP BY customer_id 
+HAVING COUNT(rental_date) >= 5;
 
 -- 99:  Para cada tienda, muestra la media de importes cobrados por transacción en el año 2006, con dos decimales.
 
