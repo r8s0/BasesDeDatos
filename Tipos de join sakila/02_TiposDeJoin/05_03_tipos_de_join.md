@@ -126,6 +126,23 @@ GROUP BY c.customer_id;
 
 # Muestra el identificador y título de las películas que tienen menos de tres ejemplares en la tienda 1, incluidos los que tienen cero. Añade el recuento de ejemplares y el máximo identificador de ejemplar. Ordena por recuento y título.
 
+SELECT * FROM film JOIN inventory USING (film_id) JOIN store USING (store_id);
+SELECT title AS película, COUNT(inventory_id)
+FROM film f
+        LEFT JOIN inventory i ON f.film_id = i.film_id
+        LEFT JOIN store s ON i.store_id = s.store_id
+WHERE s.store_id = 1
+GROUP BY f.film_id
+HAVING COUNT(inventory_id) < 3;
+
+
+SELECT * FROM film JOIN inventory USING (film_id) JOIN store USING (store_id);
+SELECT title AS película, COUNT(inventory_id)
+FROM film f
+        LEFT JOIN inventory i ON (f.film_id = i.film_id AND COUNT(inventory_id) < 3)
+        LEFT JOIN store s ON (i.store_id = s.store_id AND s.store_id = 1) 
+GROUP BY f.film_id;
+
 ### 20. Películas jamás alquiladas (varios JOIN) 
 
 # Muestra las películas que nunca se han alquilado, considerando todos sus ejemplares en las dos tiendas. Devuelve identificador, título, número de alquileres y máximo identificador de alquiler. Ordena por título.
