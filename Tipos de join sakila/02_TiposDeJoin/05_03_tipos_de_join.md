@@ -61,7 +61,8 @@ SELECT c.customer_id, CONCAT(first_name, ' ', last_name) AS cliente, COUNT(renta
 FROM customer c
         LEFT JOIN rental r ON c.customer_id = r.customer_id
 WHERE (rental_date IS NULL) OR (YEAR(rental_date) = 2005 AND MONTH(rental_date) = 05)
-GROUP BY c.customer_id;
+GROUP BY c.customer_id
+ORDER BY c.customer_id ASC;
 
 -- QUEREMOS MOVER EL FILTRO DE SITIO
 
@@ -122,26 +123,79 @@ GROUP BY c.customer_id;
 
 # Muestra las ciudades que no tienen ninguna dirección registrada, junto con el número de direcciones y el máximo identificador de dirección. Ordena por ciudad.
 
+SELECT city_id, city, COUNT(address_id) AS num_direcciones, MAX(address_id) AS max_identificador
+FROM city
+        LEFT JOIN address USING (city_id)
+WHERE address_id IS NULL
+GROUP BY city_id
+ORDER BY city;
+
 ### 19. Películas con menos de 3 copias en tienda 1 
+# Muestra el identificador y título de las películas que tienen menos de tres ejemplares en la tienda 1, 
+# incluidos los que tienen cero. Añade el recuento de ejemplares y el máximo identificador de ejemplar. Ordena por recuento y título.
 
-# Muestra el identificador y título de las películas que tienen menos de tres ejemplares en la tienda 1, incluidos los que tienen cero. Añade el recuento de ejemplares y el máximo identificador de ejemplar. Ordena por recuento y título.
-
-SELECT * FROM film JOIN inventory USING (film_id) JOIN store USING (store_id);
-SELECT title AS película, COUNT(inventory_id)
-FROM film f
-        LEFT JOIN inventory i ON f.film_id = i.film_id
-        LEFT JOIN store s ON i.store_id = s.store_id
-WHERE s.store_id = 1
+SELECT f.film_id,f.title,count(i.inventory_id)
+FROM 
+inventory i RIGHT JOIN film f ON i.film_id = f.film_id
 GROUP BY f.film_id
-HAVING COUNT(inventory_id) < 3;
+HAVING count(i.inventory_id) < 3;
 
+-- Le añadimos lo de la tienda 1 con (WHERE)
 
-SELECT * FROM film JOIN inventory USING (film_id) JOIN store USING (store_id);
-SELECT title AS película, COUNT(inventory_id)
-FROM film f
-        LEFT JOIN inventory i ON (f.film_id = i.film_id AND COUNT(inventory_id) < 3)
-        LEFT JOIN store s ON (i.store_id = s.store_id AND s.store_id = 1) 
-GROUP BY f.film_id;
+SELECT f.film_id,f.title,count(i.inventory_id)
+FROM 
+inventory i RIGHT JOIN film f ON i.film_id = f.film_id
+WHERE i.store_id = 1
+GROUP BY f.film_id
+HAVING count(i.inventory_id) < 3;
+
+-- Esto es incorrecto porque falta la 14, por ejemplo.
+-- La peli 14 NO TIENE COPIAS EN NINGUNA TIENDA, 
+-- por tanto, no tiene copias en la tienda 1.
+-- Ergo, debería salir en esta consulta.
+
+-- SOLUCIÓN:
+SELECT f.film_id,f.title,count(i.inventory_id)
+FROM 
+inventory i RIGHT JOIN film f ON i.film_id = f.film_id AND i.store_id = 1
+GROUP BY f.film_id
+HAVING count(i.inventory_id) < 3;
+
+-- ¿Por qué tiene que ir en el ON y no en el WHERE?  [A CONTESTAR POR EL ALUMNO]
+-- Dado que en un RIGHT JOIN, el ON decide qué inventarios se emparejan con cada película (y las películas sin pareja se conservan con NULL), mientras que el WHERE decide qué filas del resultado final se quedan por lo que el NULL no lo pasa.
+
+-- otra posible solución:
+SELECT f.film_id,f.title,i.inventory_id,i.store_id
+FROM inventory i RIGHT JOIN film f ON i.film_id = f.film_id
+WHERE store_id = 1 OR store_id is null;
+-- Aquí entra al cóctel toda la tabla film y toda la tabla inventory.
+-- Esto da lugar a filas con store_id 1,2 o null. Como filtro en el where,
+-- esas filas con store_id = 2 van a desaparecer. Si la peli no tenía copias
+-- en la tienda 1, al desaparecer han desaparecido y el count no va a poder
+-- contarlas porque no están.
+
+SELECT f.film_id,f.title,i.inventory_id,i.store_id
+FROM 
+inventory i RIGHT JOIN film f ON i.film_id = f.film_id AND store_id = 1;
+
+-- Aquí sin embargo, entra al cóctel toda la tabla film CON UNA PARTE de la tabla inventory.
+-- Esto da lugar a filas con store_id 1 o null. No puede haber filas con store_id = 2.
+-- ¿Qué store_id van a tener las filas que en la query anterior tenían un store_id = 2?
+-- Esas filas tendrán un NULL en store_id. Se puede comprobar con las películas 2 y 3.
+-- En la consulta anterior, la peli 2 y la peli 3 no salen (porque tenían store_id=2). En esta,
+-- SÍ salen la 2 y la 3 porque se les ha puesto un null en store_id.
+
+-- CONCLUSIÓN: 
+-- El ON decide qué copias de inventario se emparejan con cada película y las películas sin pareja se conservan con NULL en las columnas de inventory, manteniendose.
+-- El WHERE filtra después del JOIN las filas unidas en el JOIN, y decide qué filas del resultado se quedan, por lo que resultados como NULL = 1 no es verdadero, el WHERE elimina las filas con NULL (películas sin copias en la tienda 1) y el RIGHT JOIN se comporta como un INNER JOIN.
+-- Es por eso que la condición de la tienda va en el ON.
+
+SELECT f.film_id,f.title AS película,count(i.inventory_id) AS num_ejemplares, MAX(i.inventory_id) AS max_identificador
+FROM 
+inventory i RIGHT JOIN film f ON i.film_id = f.film_id AND store_id = 1
+GROUP BY f.film_id
+HAVING count(i.inventory_id) < 3
+ORDER BY COUNT(i.inventory_id);
 
 ### 20. Películas jamás alquiladas (varios JOIN) 
 
