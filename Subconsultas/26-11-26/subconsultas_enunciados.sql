@@ -1,3 +1,4 @@
+use sakila;
 -- Enunciados de la guía de subconsultas.
 -- Este archivo contiene solo comentarios para practicar la escritura de SQL.
 -- Esquema de referencia: Sakila.
@@ -133,7 +134,7 @@ SELECT film_id, title -- En el SELECT tengo que poner la info de la subconsulta 
 FROM film
 WHERE film_id IN (SELECT * FROM ids_peliculas_children);
 
--- Consulta 10. Películas de la categoría "Children" — Paso 3.
+-- Consulta 10. Películas de la categoría "Children" — Paso 3. (Filtro ON)
 
 
 -- Consulta 11. Películas de la categoría "Children" — segunda versión con WITH — Paso 3.
@@ -148,7 +149,13 @@ FROM film
     JOIN subtabla_de_categoria USING (category_id);
 
 -- Consulta 12. Clientes con al menos un alquiler.
+SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(rental_id) FROM customer JOIN rental USING (customer_id) GROUP BY customer_id HAVING COUNT(rental_id) >= 1;
 
+WITH clientes_con_alquileres AS
+	(SELECT CONCAT(first_name, ' ', last_name) AS nombre, COUNT(rental_id) FROM customer JOIN rental USING (customer_id) GROUP BY customer_id HAVING COUNT(rental_id) >= 1)
+SELECT CONCAT(first_name, ' ', last_name) AS cliente, COUNT(rental_id) AS num_alquileres
+FROM customer JOIN rental USING (customer_id)
+GROUP BY customer_id;
 
 -- Consulta 13. Clientes con al menos un alquiler — segunda versión con WITH.
 
