@@ -1,3 +1,4 @@
+use sakila;
 ### 1. Idiomas y películas 
 
 # Muestra el identificador y nombre de todos los idiomas, junto con el identificador y título de sus películas. Incluye los idiomas que no tengan películas. Ordena por idioma y título.
@@ -201,3 +202,12 @@ ORDER BY COUNT(i.inventory_id);
 
 # Muestra las películas que nunca se han alquilado, considerando todos sus ejemplares en las dos tiendas. Devuelve identificador, título, número de alquileres y máximo identificador de alquiler. Ordena por título.
 
+SELECT film_id, title, COUNT(rental_id), MAX(rental_id)
+FROM film
+        LEFT JOIN inventory USING (film_id)
+        LEFT JOIN rental USING (inventory_id)
+GROUP BY film_id
+HAVING COUNT(rental_id) = 0
+ORDER BY title;
+
+-- En general, si uso LEFT JOIN, siempre voy a tener que ir haciendo LEFT JOINS, es decir, el resto de los JOINS serán también LEFT JOINS.
